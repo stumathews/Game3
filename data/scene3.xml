@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Objects in Scene/Level 3 -->
+<scene id="2">
+	<layer name="layer0" posx="0" posy="0" visible="true">
+		<objects>
+			<object name="name3" type="graphic" posx="100" posy="40" resourceId="9" visible="true"></object>
+      <object name="name4" type="graphic" posx="400" posy="40" resourceId="11" visible="true"></object>
+     <object name="name5" type="graphic" posx="400" posy="40" resourceId="18" visible="true"></object>
+		</objects>
+	</layer>
+</scene>

@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<level cols="5" rows="5">
+  <room number="0" top="True" right="True" bottom="True" left="True" />
+  <room number="1" top="True" right="True" bottom="True" left="True" />
+  <room number="2" top="True" right="True" bottom="True" left="True" />
+  <room number="3" top="True" right="True" bottom="True" left="True" />
+  <room number="4" top="True" right="True" bottom="True" left="True" />
+  <room number="5" top="True" right="True" bottom="True" left="True" />
+  <room number="6" top="True" right="True" bottom="True" left="True" />
+  <room number="7" top="True" right="True" bottom="True" left="True">
+    <object name="q" type="Player" resourceId="6" assetPath="Assets/Platformer/Base pack/Player/p1_front.png" />
+  </room>
+  <room number="8" top="True" right="True" bottom="True" left="True" />
+  <room number="9" top="True" right="True" bottom="True" left="True" />
+  <room number="10" top="True" right="True" bottom="True" left="True" />
+  <room number="11" top="True" right="True" bottom="True" left="True" />
+  <room number="12" top="True" right="True" bottom="True" left="True" />
+  <room number="13" top="True" right="True" bottom="True" left="True" />
+  <room number="14" top="True" right="True" bottom="True" left="True" />
+  <room number="15" top="True" right="True" bottom="True" left="True" />
+  <room number="16" top="True" right="True" bottom="True" left="True">
+    <object name="b" type="Player" resourceId="8" assetPath="Assets/Platformer/Base pack/Player/p3_front.png">
+      <property name="points" value="12" />
+      <property name="name" value="Stuart" />
+    </object>
+  </room>
+  <room number="17" top="True" right="True" bottom="True" left="True" />
+  <room number="18" top="True" right="True" bottom="True" left="True" />
+  <room number="19" top="True" right="True" bottom="True" left="True" />
+  <room number="20" top="True" right="True" bottom="True" left="True" />
+  <room number="21" top="True" right="True" bottom="True" left="True" />
+  <room number="22" top="True" right="True" bottom="True" left="True" />
+  <room number="23" top="True" right="True" bottom="True" left="True" />
+  <room number="24" top="True" right="True" bottom="True" left="True" />
+</level>

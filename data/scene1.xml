@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Objects in Scene/Level 1 -->
+<scene id="1">	
+	
+	<!-- Player Layer -->
+	<layer name="player0" posx="0" posy="0" visible="true">
+		
+		<!-- player layer Objects -->
+		<objects/>
+	</layer>
+</scene>

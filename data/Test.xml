@@ -1,0 +1,283 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Assets>
+  <Asset uid="1" name="LevelMusic4" type="music" filename="Assets/Music/MainTheme.wav" />
+  <Asset uid="2" name="scratch.wav" type="fx" filename="Assets/scratch.wav" />
+  <Asset uid="3" name="high.wav" type="fx" filename="Assets/high.wav" />
+  <Asset uid="4" name="medium.wav" type="fx" filename="Assets/medium.wav" />
+  <Asset uid="5" name="low.wav" type="fx" filename="Assets/low.wav" />
+  <Asset uid="6" name="p1.png" type="graphic" filename="Assets/Platformer/Base pack/Player/p1_front.png" />
+  <Asset uid="7" name="p2.png" type="graphic" filename="Assets/Platformer/Base pack/Player/p2_front.png" />
+  <Asset uid="8" name="p3.png" type="graphic" filename="Assets/Platformer/Base pack/Player/p3_front.png" />
+  <Asset uid="9" name="p1.png" type="graphic" filename="Assets/Platformer/Base pack/Player/p1_walk/p1_walk.png">
+    <sprite>
+      <animation>
+        <keyframes>
+          <keyframe x="0" y="0" w="67" h="92" />
+          <keyframe x="66" y="0" w="66" h="93" />
+          <keyframe x="132" y="0" w="67" h="92" />
+          <keyframe x="0" y="93" w="67" h="93" />
+          <keyframe x="67" y="93" w="66" h="93" />
+          <keyframe x="133" y="93" w="71" h="92" />
+          <keyframe x="0" y="186" w="71" h="93" />
+          <keyframe x="71" y="186" w="71" h="93" />
+          <keyframe x="142" y="186" w="70" h="93" />
+          <keyframe x="0" y="279" w="71" h="93" />
+          <keyframe x="71" y="279" w="67" h="92" />
+        </keyframes>
+      </animation>
+    </sprite>
+  </Asset>
+  <Asset uid="10" name="p2.png" type="graphic" filename="Assets/Platformer/Base pack/Player/p2_walk/p2_walk.png">
+    <sprite>
+      <animation>
+        <keyframes>
+          <keyframe x="0" y="0" w="67" h="92" />
+          <keyframe x="67" y="0" w="66" h="93" />
+          <keyframe x="133" y="0" w="66" h="91" />
+          <keyframe x="0" y="93" w="67" h="91" />
+          <keyframe x="67" y="93" w="66" h="91" />
+          <keyframe x="133" y="93" w="69" h="90" />
+          <keyframe x="0" y="184" w="69" h="91" />
+          <keyframe x="69" y="184" w="69" h="92" />
+          <keyframe x="138" y="184" w="68" h="92" />
+          <keyframe x="0" y="276" w="69" h="93" />
+          <keyframe x="69" y="276" w="67" h="92" />
+        </keyframes>
+      </animation>
+    </sprite>
+  </Asset>
+  <Asset uid="11" name="p3.png" type="graphic" filename="Assets/Platformer/Base pack/Player/p3_walk/p3_walk.png">
+    <sprite>
+      <animation>
+        <keyframes>
+          <keyframe x="0" y="0" w="66" h="92" />
+          <keyframe x="66" y="0" w="66" h="93" />
+          <keyframe x="132" y="0" w="66" h="93" />
+          <keyframe x="0" y="93" w="66" h="93" />
+          <keyframe x="66" y="93" w="66" h="93" />
+          <keyframe x="132" y="93" w="71" h="92" />
+          <keyframe x="0" y="186" w="71" h="93" />
+          <keyframe x="71" y="186" w="71" h="93" />
+          <keyframe x="142" y="186" w="70" h="92" />
+          <keyframe x="0" y="279" w="71" h="93" />
+          <keyframe x="71" y="279" w="66" h="92" />
+        </keyframes>
+      </animation>
+    </sprite>
+  </Asset>
+  <Asset uid="12" name="arial.ttf" type="font" filename="Assets/fonts/arial.ttf" />
+  <Asset uid="13" name="beep.wav" type="fx" filename="Assets/beep.wav" />
+  <Asset uid="14" name="boop.wav" type="fx" filename="Assets/boop.wav" />
+  <Asset uid="15" name="LevelMusic1" type="music" filename="Assets/Music/8BitMetal.wav" />
+  <Asset uid="16" name="LevelMusic2" type="music" filename="Assets/Music/FranticLevel.wav" />
+  <Asset uid="17" name="LevelMusic3" type="music" filename="Assets/Music/HappyLevel.wav" />
+  <Asset uid="18" name="snap_player" type="graphic" filename="game/assets/character2.png">
+    <colorkey red="255" blue="255" green="255" />
+    <sprite>
+      <animation>
+        <keyframes duration="150">
+          <!-- Wait 0 ms before switching to next frame -->
+          <keyframe x="0" y="0" w="32" h="32" group="up" />
+          <keyframe x="32" y="0" w="32" h="32" group="up" />
+          <keyframe x="64" y="0" w="32" h="32" group="right" />
+          <keyframe x="96" y="0" w="32" h="32" group="right" />
+          <keyframe x="128" y="0" w="32" h="32" group="down" />
+          <keyframe x="160" y="0" w="32" h="32" group="down" />
+          <keyframe x="192" y="0" w="32" h="32" group="left" />
+          <keyframe x="224" y="0" w="32" h="32" group="left" />
+        </keyframes>
+      </animation>
+    </sprite>
+  </Asset>
+  <Asset uid="188" name="edge_player" type="graphic" filename="game/assets/character1.png">
+    <colorkey red="255" blue="255" green="255" />
+    <sprite>
+      <animation>
+        <keyframes duration="150">
+          <!-- Wait 150 ms before switching to next frame -->
+          <keyframe x="0" y="0" w="32" h="32" group="up" />
+          <keyframe x="32" y="0" w="32" h="32" group="up" />
+          <keyframe x="64" y="0" w="32" h="32" group="right" />
+          <keyframe x="96" y="0" w="32" h="32" group="right" />
+          <keyframe x="128" y="0" w="32" h="32" group="down" />
+          <keyframe x="160" y="0" w="32" h="32" group="down" />
+          <keyframe x="192" y="0" w="32" h="32" group="left" />
+          <keyframe x="224" y="0" w="32" h="32" group="left" />
+        </keyframes>
+      </animation>
+    </sprite>
+  </Asset>
+  <Asset uid="19" name="goldcoin" type="graphic" filename="game/assets/coin_gold.png">
+    <colorkey red="255" blue="255" green="255" />
+    <sprite>
+      <animation>
+        <keyframes duration="100">
+          <!-- Wait 0 ms before switching to next frame -->
+          <keyframe x="0" y="0" w="32" h="32" />
+          <keyframe x="32" y="0" w="32" h="32" />
+          <keyframe x="64" y="0" w="32" h="32" />
+          <keyframe x="96" y="0" w="32" h="32" />
+          <keyframe x="128" y="0" w="32" h="32" />
+          <keyframe x="160" y="0" w="32" h="32" />
+          <keyframe x="192" y="0" w="32" h="32" />
+          <keyframe x="224" y="0" w="32" h="32" />
+        </keyframes>
+      </animation>
+    </sprite>
+  </Asset>
+  <Asset uid="20" name="silvercoin" type="graphic" filename="game/assets/coin_silver.png">
+    <colorkey red="255" blue="255" green="255" />
+    <sprite>
+      <animation>
+        <keyframes duration="100">
+          <!-- Wait 0 ms before switching to next frame -->
+          <keyframe x="0" y="0" w="32" h="32" />
+          <keyframe x="32" y="0" w="32" h="32" />
+          <keyframe x="64" y="0" w="32" h="32" />
+          <keyframe x="96" y="0" w="32" h="32" />
+          <keyframe x="128" y="0" w="32" h="32" />
+          <keyframe x="160" y="0" w="32" h="32" />
+          <keyframe x="192" y="0" w="32" h="32" />
+          <keyframe x="224" y="0" w="32" h="32" />
+        </keyframes>
+      </animation>
+    </sprite>
+  </Asset>
+  <Asset uid="21" name="coppercoin" type="graphic" filename="game/assets/coin_copper.png">
+    <colorkey red="255" blue="255" green="255" />
+    <sprite>
+      <animation>
+        <keyframes duration="100">
+          <!-- Wait 100 ms before switching to next frame -->
+          <keyframe x="0" y="0" w="32" h="32" />
+          <keyframe x="32" y="0" w="32" h="32" />
+          <keyframe x="64" y="0" w="32" h="32" />
+          <keyframe x="96" y="0" w="32" h="32" />
+          <keyframe x="128" y="0" w="32" h="32" />
+          <keyframe x="160" y="0" w="32" h="32" />
+          <keyframe x="192" y="0" w="32" h="32" />
+          <keyframe x="224" y="0" w="32" h="32" />
+        </keyframes>
+      </animation>
+    </sprite>
+  </Asset>
+  <Asset uid="22" name="hudspritesheet" type="graphic" filename="game/assets/hud_spritesheet.png">
+    <colorkey red="255" blue="255" green="255" />
+    <sprite>
+      <animation>
+        <keyframes>
+          <!-- Wait 100 ms before switching to next frame -->
+          <keyframe name="hud_0.png" x="230" y="0" w="30" h="38" />
+          <keyframe name="hud_1.png" x="196" y="41" w="26" h="37" />
+          <keyframe name="hud_2.png" x="55" y="98" w="32" h="38" />
+          <keyframe name="hud_3.png" x="239" y="80" w="28" h="38" />
+          <keyframe name="hud_4.png" x="238" y="122" w="29" h="38" />
+          <keyframe name="hud_5.png" x="238" y="162" w="28" h="38" />
+          <keyframe name="hud_6.png" x="230" y="40" w="30" h="38" />
+          <keyframe name="hud_7.png" x="226" y="206" w="32" h="39" />
+          <keyframe name="hud_8.png" x="192" y="206" w="32" h="40" />
+          <keyframe name="hud_9.png" x="196" y="0" w="32" h="39" />
+          <keyframe name="hud_coins.png" x="55" y="0" w="47" h="47" />
+          <keyframe name="hud_gem_blue.png" x="104" y="0" w="46" h="36" />
+          <keyframe name="hud_gem_green.png" x="98" y="185" w="46" h="36" />
+          <keyframe name="hud_gem_red.png" x="98" y="147" w="46" h="36" />
+          <keyframe name="hud_gem_yellow.png" x="98" y="223" w="46" h="36" />
+          <keyframe name="hud_heartEmpty.png" x="0" y="47" w="53" h="45" />
+          <keyframe name="hud_heartFull.png" x="0" y="94" w="53" h="45" />
+          <keyframe name="hud_heartHalf.png" x="0" y="0" w="53" h="45" />
+          <keyframe name="hud_keyBlue.png" x="146" y="147" w="44" h="40" />
+          <keyframe name="hud_keyBlue_disabled.png" x="150" y="38" w="44" h="40" />
+          <keyframe name="hud_keyGreem_disabled.png" x="104" y="38" w="44" h="40" />
+          <keyframe name="hud_keyGreen.png" x="192" y="122" w="44" h="40" />
+          <keyframe name="hud_keyRed.png" x="193" y="80" w="44" h="40" />
+          <keyframe name="hud_keyRed_disabled.png" x="192" y="164" w="44" h="40" />
+          <keyframe name="hud_keyYellow.png" x="146" y="189" w="44" h="40" />
+          <keyframe name="hud_keyYellow_disabled.png" x="147" y="80" w="44" h="40" />
+          <keyframe name="hud_p1.png" x="55" y="49" w="47" h="47" />
+          <keyframe name="hud_p1Alt.png" x="0" y="141" w="47" h="47" />
+          <keyframe name="hud_p2.png" x="49" y="141" w="47" h="47" />
+          <keyframe name="hud_p2Alt.png" x="0" y="190" w="47" h="47" />
+          <keyframe name="hud_p3.png" x="49" y="190" w="47" h="47" />
+          <keyframe name="hud_p3Alt.png" x="98" y="98" w="47" h="47" />
+          <keyframe name="hud_x.png" x="0" y="239" w="30" h="28" />
+        </keyframes>
+      </animation>
+    </sprite>
+  </Asset>
+  <Asset uid="23" name="win.wav" type="fx" filename="Assets/win.wav" />
+  <Asset uid="24" name="AutoLevelMusic" type="music" filename="Assets/Music/IntroLoop.wav" />
+  <Asset uid="25" name="LevelMusic5" type="music" filename="Assets/Music/SubduedTheme.wav" />
+  <Asset uid="26" name="kenvector_future2.ttf" type="font" filename="Assets/fonts/kenvector_future2.ttf" />
+  <Asset uid="27" name="amg2.png" type="graphic" filename="game/assets/amg2.png">
+    <colorkey red="255" blue="255" green="255" />
+    <sprite>
+      <animation>
+        <keyframes duration="150">
+          <!-- Wait 150 ms before switching to next frame -->
+          <keyframe x="0" y="0" w="32" h="32" group="up" />
+          <keyframe x="32" y="0" w="32" h="32" group="up" />
+          <keyframe x="64" y="0" w="32" h="32" group="right" />
+          <keyframe x="96" y="0" w="32" h="32" group="right" />
+          <keyframe x="128" y="0" w="32" h="32" group="down" />
+          <keyframe x="160" y="0" w="32" h="32" group="down" />
+          <keyframe x="192" y="0" w="32" h="32" group="left" />
+          <keyframe x="224" y="0" w="32" h="32" group="left" />
+        </keyframes>
+      </animation>
+    </sprite>
+  </Asset>
+  <Asset uid="28" name="bmg1.png" type="graphic" filename="game/assets/bmg1.png">
+    <colorkey red="255" blue="255" green="255" />
+    <sprite>
+      <animation>
+        <keyframes duration="150">
+          <!-- Wait 150 ms before switching to next frame -->
+          <keyframe x="0" y="0" w="32" h="32" group="up" />
+          <keyframe x="32" y="0" w="32" h="32" group="up" />
+          <keyframe x="64" y="0" w="32" h="32" group="right" />
+          <keyframe x="96" y="0" w="32" h="32" group="right" />
+          <keyframe x="128" y="0" w="32" h="32" group="down" />
+          <keyframe x="160" y="0" w="32" h="32" group="down" />
+          <keyframe x="192" y="0" w="32" h="32" group="left" />
+          <keyframe x="224" y="0" w="32" h="32" group="left" />
+        </keyframes>
+      </animation>
+    </sprite>
+  </Asset>
+  <Asset uid="29" name="chr1.png" type="graphic" filename="game/assets/chr1.png">
+    <colorkey red="255" blue="255" green="255" />
+    <sprite>
+      <animation>
+        <keyframes duration="150">
+          <!-- Wait 150 ms before switching to next frame -->
+          <keyframe x="0" y="0" w="32" h="32" group="up" />
+          <keyframe x="32" y="0" w="32" h="32" group="up" />
+          <keyframe x="64" y="0" w="32" h="32" group="right" />
+          <keyframe x="96" y="0" w="32" h="32" group="right" />
+          <keyframe x="128" y="0" w="32" h="32" group="down" />
+          <keyframe x="160" y="0" w="32" h="32" group="down" />
+          <keyframe x="192" y="0" w="32" h="32" group="left" />
+          <keyframe x="224" y="0" w="32" h="32" group="left" />
+        </keyframes>
+      </animation>
+    </sprite>
+  </Asset>
+  <Asset uid="30" name="dvl1.png" type="graphic" filename="game/assets/dvl1.png">
+    <colorkey red="255" blue="255" green="255" />
+    <sprite>
+      <animation>
+        <keyframes duration="150">
+          <!-- Wait 150 ms before switching to next frame -->
+          <keyframe x="0" y="0" w="32" h="32" group="up" />
+          <keyframe x="32" y="0" w="32" h="32" group="up" />
+          <keyframe x="64" y="0" w="32" h="32" group="right" />
+          <keyframe x="96" y="0" w="32" h="32" group="right" />
+          <keyframe x="128" y="0" w="32" h="32" group="down" />
+          <keyframe x="160" y="0" w="32" h="32" group="down" />
+          <keyframe x="192" y="0" w="32" h="32" group="left" />
+          <keyframe x="224" y="0" w="32" h="32" group="left" />
+        </keyframes>
+      </animation>
+    </sprite>
+  </Asset>
+</Assets>

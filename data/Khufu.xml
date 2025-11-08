@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<level cols="10" rows="10" autoPopulatePickups="True">
+  <room number="0" top="True" right="False" bottom="True" left="True" />
+  <room number="1" top="True" right="False" bottom="True" left="False" />
+  <room number="2" top="True" right="False" bottom="False" left="False" />
+  <room number="3" top="True" right="False" bottom="True" left="False" />
+  <room number="4" top="True" right="False" bottom="True" left="False" />
+  <room number="5" top="True" right="False" bottom="True" left="False" />
+  <room number="6" top="True" right="False" bottom="True" left="False" />
+  <room number="7" top="True" right="False" bottom="True" left="False" />
+  <room number="8" top="True" right="False" bottom="False" left="False" />
+  <room number="9" top="True" right="True" bottom="True" left="False">
+    <object name="Enemy" type="Enemy" resourceId="18" assetPath="game/assets/character2.png">
+      <property name="HitPoint" value="50" />
+    </object>
+  </room>
+  <room number="10" top="True" right="True" bottom="False" left="True">
+    <object name="Enemy" type="Enemy" resourceId="18" assetPath="game/assets/character2.png">
+      <property name="HitPoint" value="50" />
+    </object>
+  </room>
+  <room number="11" top="True" right="False" bottom="True" left="True" />
+  <room number="12" top="False" right="False" bottom="False" left="False" />
+  <room number="13" top="True" right="False" bottom="False" left="False" />
+  <room number="14" top="True" right="False" bottom="False" left="False" />
+  <room number="15" top="True" right="False" bottom="False" left="False">
+    <object name="Enemy" type="Enemy" resourceId="18" assetPath="game/assets/character2.png">
+      <property name="HitPoint" value="50" />
+    </object>
+  </room>
+  <room number="16" top="True" right="False" bottom="False" left="False" />
+  <room number="17" top="True" right="False" bottom="False" left="False" />
+  <room number="18" top="False" right="False" bottom="False" left="False" />
+  <room number="19" top="True" right="True" bottom="False" left="False" />
+  <room number="20" top="False" right="True" bottom="False" left="True" />
+  <room number="21" top="True" right="True" bottom="False" left="True" />
+  <room number="22" top="False" right="False" bottom="True" left="True" />
+  <room number="23" top="False" right="False" bottom="True" left="False" />
+  <room number="24" top="False" right="False" bottom="True" left="False">
+    <object name="Player2" type="Player" resourceId="7" assetPath="Assets/Platformer/Base pack/Player/p2_front.png" />
+  </room>
+  <room number="25" top="False" right="False" bottom="True" left="False" />
+  <room number="26" top="False" right="False" bottom="True" left="False" />
+  <room number="27" top="False" right="False" bottom="True" left="False" />
+  <room number="28" top="False" right="False" bottom="True" left="False" />
+  <room number="29" top="False" right="True" bottom="True" left="False" />
+  <room number="30" top="False" right="True" bottom="False" left="True" />
+  <room number="31" top="False" right="True" bottom="False" left="True" />
+  <room number="32" top="True" right="False" bottom="False" left="True" />
+  <room number="33" top="True" right="False" bottom="True" left="False" />
+  <room number="34" top="True" right="False" bottom="True" left="False" />
+  <room number="35" top="True" right="False" bottom="True" left="False" />
+  <room number="36" top="True" right="False" bottom="True" left="False" />
+  <room number="37" top="True" right="False" bottom="True" left="False" />
+  <room number="38" top="True" right="False" bottom="True" left="False" />
+  <room number="39" top="True" right="True" bottom="False" left="False">
+    <object name="Enemy" type="Enemy" resourceId="18" assetPath="game/assets/character2.png">
+      <property name="HitPoint" value="50" />
+    </object>
+  </room>
+  <room number="40" top="False" right="True" bottom="False" left="True" />
+  <room number="41" top="False" right="True" bottom="False" left="True" />
+  <room number="42" top="False" right="False" bottom="True" left="True" />
+  <room number="43" top="True" right="False" bottom="False" left="False" />
+  <room number="44" top="True" right="False" bottom="True" left="False" />
+  <room number="45" top="True" right="False" bottom="True" left="False" />
+  <room number="46" top="True" right="True" bottom="False" left="False">
+    <object name="Enemy" type="Enemy" resourceId="18" assetPath="game/assets/character2.png">
+      <property name="HitPoint" value="50" />
+    </object>
+  </room>
+  <room number="47" top="True" right="True" bottom="True" left="True" />
+  <room number="48" top="True" right="False" bottom="False" left="True" />
+  <room number="49" top="False" right="True" bottom="True" left="False" />
+  <room number="50" top="False" right="False" bottom="False" left="True" />
+  <room number="51" top="False" right="False" bottom="True" left="False">
+    <object name="Enemy" type="Enemy" resourceId="18" assetPath="game/assets/character2.png">
+      <property name="HitPoint" value="50" />
+    </object>
+  </room>
+  <room number="52" top="True" right="True" bottom="True" left="False" />
+  <room number="53" top="False" right="True" bottom="False" left="True" />
+  <room number="54" top="True" right="True" bottom="True" left="True" />
+  <room number="55" top="True" right="True" bottom="True" left="True" />
+  <room number="56" top="False" right="True" bottom="False" left="True" />
+  <room number="57" top="True" right="True" bottom="True" left="True" />
+  <room number="58" top="False" right="True" bottom="False" left="True" />
+  <room number="59" top="True" right="True" bottom="False" left="True" />
+  <room number="60" top="False" right="False" bottom="True" left="True" />
+  <room number="61" top="True" right="True" bottom="False" left="False" />
+  <room number="62" top="True" right="True" bottom="True" left="True" />
+  <room number="63" top="False" right="False" bottom="True" left="True">
+    <object name="Enemy" type="Enemy" resourceId="18" assetPath="game/assets/character2.png">
+      <property name="HitPoint" value="50" />
+    </object>
+  </room>
+  <room number="64" top="True" right="False" bottom="True" left="False" />
+  <room number="65" top="True" right="True" bottom="True" left="False" />
+  <room number="66" top="False" right="True" bottom="False" left="True" />
+  <room number="67" top="True" right="True" bottom="True" left="True" />
+  <room number="68" top="False" right="False" bottom="False" left="True" />
+  <room number="69" top="False" right="True" bottom="False" left="False" />
+  <room number="70" top="True" right="True" bottom="True" left="True" />
+  <room number="71" top="False" right="False" bottom="False" left="True" />
+  <room number="72" top="True" right="False" bottom="True" left="False" />
+  <room number="73" top="True" right="True" bottom="False" left="False" />
+  <room number="74" top="True" right="True" bottom="True" left="True" />
+  <room number="75" top="True" right="True" bottom="True" left="True" />
+  <room number="76" top="False" right="True" bottom="False" left="True" />
+  <room number="77" top="True" right="True" bottom="True" left="True" />
+  <room number="78" top="False" right="True" bottom="False" left="True" />
+  <room number="79" top="False" right="True" bottom="False" left="True" />
+  <room number="80" top="True" right="False" bottom="False" left="True" />
+  <room number="81" top="False" right="True" bottom="True" left="False" />
+  <room number="82" top="True" right="True" bottom="False" left="True" />
+  <room number="83" top="False" right="False" bottom="False" left="True" />
+  <room number="84" top="True" right="False" bottom="True" left="False" />
+  <room number="85" top="True" right="False" bottom="True" left="False">
+    <object name="Enemy" type="Enemy" resourceId="18" assetPath="game/assets/character2.png">
+      <property name="HitPoint" value="50" />
+    </object>
+  </room>
+  <room number="86" top="False" right="True" bottom="False" left="False" />
+  <room number="87" top="True" right="True" bottom="True" left="True" />
+  <room number="88" top="False" right="True" bottom="False" left="True" />
+  <room number="89" top="False" right="True" bottom="False" left="True" />
+  <room number="90" top="False" right="True" bottom="True" left="True" />
+  <room number="91" top="True" right="False" bottom="True" left="True">
+    <object name="Enemy" type="Enemy" resourceId="18" assetPath="game/assets/character2.png">
+      <property name="HitPoint" value="50" />
+    </object>
+  </room>
+  <room number="92" top="False" right="False" bottom="True" left="False" />
+  <room number="93" top="False" right="True" bottom="True" left="False" />
+  <room number="94" top="True" right="True" bottom="True" left="True" />
+  <room number="95" top="True" right="True" bottom="True" left="True" />
+  <room number="96" top="False" right="False" bottom="True" left="True" />
+  <room number="97" top="True" right="False" bottom="True" left="False" />
+  <room number="98" top="False" right="True" bottom="True" left="False" />
+  <room number="99" top="False" right="True" bottom="True" left="True">
+    <object name="Enemy" type="Enemy" resourceId="18" assetPath="game/assets/character2.png">
+      <property name="HitPoint" value="50" />
+    </object>
+  </room>
+</level>

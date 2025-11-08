@@ -1,0 +1,20 @@
+{
+  "dependencies": [
+    "libmonad",
+    {
+        "name": "cppgamelib",
+        "version>=": "1.2.28"
+    },
+    "testlib",
+    {
+        "name": "mazer",
+        "version>=": "0.4"
+    },
+    "libsodium",
+    "gtest",
+    "sdl2",
+    "sdl2-ttf",
+    "sdl2-mixer",
+    "sdl2-image"
+  ]
+}
