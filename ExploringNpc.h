@@ -56,7 +56,7 @@ public:
 				currentRoom(initialRoom)
 	{
 		// empty
-		roomInfo = std::make_shared<mazer::RoomInfo>(initialRoom);
+		currentRoomInfo = std::make_shared<mazer::RoomInfo>(initialRoom);
 	}
 
 	void Initialize();
@@ -76,14 +76,20 @@ public:
 	}
 
 	void Update(const unsigned long deltaMs) override;
+	void DrawRoomCross(SDL_Renderer* renderer) const;
+	void DrawMyCross(SDL_Renderer* renderer) const;
 	void Draw(SDL_Renderer* renderer) override;
 private:
 	std::shared_ptr<MoveProbabilityMatrix> moveProbabilityMatrix;
 	std::shared_ptr<mazer::Room> currentRoom;
-	std::shared_ptr<mazer::RoomInfo> roomInfo;
+	std::shared_ptr<mazer::RoomInfo> currentRoomInfo;
 	OnceVariable actionSelected;
 	gamelib::BehaviorTree* behaviorTree;
 	std::shared_ptr<mazer::Room> lastRoom;
-	bool isInSingleRoom = false;
+	bool isWithinSingleRoom = false;
+	bool hasReachedCenter = false;
+	bool drawNpcCross = false;
+	bool drawRoomCross = false;
+	bool drawNpcHotspot = false;
 };
 

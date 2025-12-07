@@ -62,7 +62,6 @@ public:
 	}
 	~MoveProbabilityMatrix()
 	{
-
 		delete[] moveProbabilityMatrix;
 	}
 
@@ -75,6 +74,13 @@ public:
 			moveProbabilityMatrix[roomNumber][static_cast<int>(gamelib::Direction::Left)],
 			moveProbabilityMatrix[roomNumber][static_cast<int>(gamelib::Direction::Right)]
 			}));
+	}
+
+	// Determines if its possible to move in the desired direction  
+	bool CanFromRoomInDirection(const std::shared_ptr<mazer::Room>& room, gamelib::Direction desiredDirction)
+	{
+		// If move probability is > 0 then its possible to move in the desired direction, otherwise its not
+		return moveProbabilityMatrix[room->GetRoomNumber()][static_cast<int>(desiredDirction)] > 0.0;
 	}
 
 private:
