@@ -378,6 +378,23 @@ void LevelManager::AddScreenWidgets(const std::vector<std::shared_ptr<mazer::Roo
 	AddGameObjectToScene(playerPoints);
 }
 
+void LevelManager::CreateExploringNpc(const std::vector<std::shared_ptr<mazer::Room>>& rooms)
+{
+	auto targetRoomNumber = 0;
+	// Get the asset to use to make the exploring NPC
+	const auto exploringNpcAsset = GetAsset("explorer");
+
+	// Make an animated type sprite using the specified asset
+	auto animatedSprite = AnimatedSprite::Create(rooms[targetRoomNumber]->Position, To<SpriteAsset>(exploringNpcAsset));
+
+	// Create an ExploringNPC and set its position to the center of the room
+	auto centerOfRoom = rooms[targetRoomNumber]->GetCenter(animatedSprite->Dimensions);
+	exploringNpc = std::make_shared<ExploringNpc>("john", "Wanderer", centerOfRoom, true, animatedSprite, moveProbabilityMatrix, rooms[targetRoomNumber]);
+	exploringNpc->Initialize();
+
+	AddGameObjectToScene(exploringNpc);
+}
+
 void LevelManager::CreateLevel(const string& levelFilePath)
 {	
 	RemoveAllGameObjects();
@@ -404,8 +421,11 @@ void LevelManager::CreateLevel(const string& levelFilePath)
 		CreateAutoPickups(rooms);
 	}
 
-	// Add everything to the scene
+	// Add rooms to the scene
 	AddScreenWidgets(rooms);
+
+	// Create our exploring NPCs
+	CreateExploringNpc(rooms);
 }
 
 std::shared_ptr<DrawableFrameRate> LevelManager::CreateDrawableFrameRate()
@@ -528,15 +548,8 @@ void LevelManager::InitializeRooms(const std::vector<std::shared_ptr<mazer::Room
 		AddGameObjectToScene(room);
 	}
 
-	// Based on the rooms created, build a move probability matrix for randomly choosing an appropriate move action for enemies
+	// Based on the rooms created, build a move probability matrix that defines the rules of allowed movements
 	moveProbabilityMatrix = std::make_shared<MoveProbabilityMatrix>(level->Rooms);
-	auto sprite = GetAsset("edge_player");
-	auto animatedSprite = AnimatedSprite::Create(rooms[0]->Position, To<SpriteAsset>(sprite));
-
-
-	exploringNpc = std::make_shared<ExploringNpc>("john", "Wanderer", rooms[0]->Position, true, animatedSprite, moveProbabilityMatrix, rooms[0]);
-
-	AddGameObjectToScene(exploringNpc);
 }
 
 

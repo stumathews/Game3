@@ -13,7 +13,7 @@
     <setting name="frames_per_column" type="int">3</setting>
     <setting name="verbose" type="bool">false</setting>
     <setting name="use_3d_render_manager" type="bool">false</setting>
-    <setting name="print_debugging_text" type="bool">true</setting>
+    <setting name="print_debugging_text" type="bool">false</setting>
     <setting name="print_debugging_text_neighbours_only" type="bool">false</setting>
 		<setting name="numPickups" type="int">20</setting>
 		<setting name="isNetworkGame" type="bool">true</setting>
@@ -62,7 +62,7 @@
   </grid>
   
   <room>
-    <setting name="drawHotSpot" type="bool">false</setting>
+    <setting name="drawHotSpot" type="bool">true</setting>
     <setting name="drawInnerBounds" type="bool">false</setting>	
     <setting name="innerBoundsOffset" type="int">2</setting>	
     <setting name="logWallRemovals" type="bool">false</setting>
@@ -92,7 +92,7 @@
   <player>
     <!--<setting name="move_interval" type="int">1</setting>-->
     <setting name="drawBounds" type="bool">false</setting>
-    <setting name="hotspotSize" type="int">5</setting>
+    <setting name="hotspotSize" type="int">2</setting>
     <setting name="drawHotspot" type="bool">false</setting>
     <setting name="hideSprite" type="bool">false</setting>
     <setting name="box_width" type="int">10</setting>

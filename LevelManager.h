@@ -93,6 +93,7 @@ private:
     unsigned int currentLevel = 1;
     void AddGameObjectToScene(const std::shared_ptr<gamelib::GameObject>& gameObject);
     void AddScreenWidgets(const std::vector<std::shared_ptr<mazer::Room>>& rooms);
+    void CreateExploringNpc(const std::vector<std::shared_ptr<mazer::Room>>& rooms);
     void CreateAutoPickups(const std::vector<std::shared_ptr<mazer::Room>>& rooms);
     void CreatePlayer(const std::vector<std::shared_ptr<mazer::Room>>& rooms, int resourceId);
     void OnGameWon();

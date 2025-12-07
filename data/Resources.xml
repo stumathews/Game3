@@ -96,6 +96,7 @@
       </animation> 
     </sprite>  
   </Asset>
+	
 	<Asset uid="188" scene="0" name="edge_player" type="graphic" filename="data/assets/character1.png" width="32" height="32">
      <colorkey red="255" blue="255" green="255"/>
      <sprite>
@@ -212,4 +213,23 @@
   
 	<Asset uid="25" scene="4" name="LevelMusic5" type="music" filename="data/assets/SubduedTheme.wav"></Asset>
 	<Asset uid="26" scene="0" name="kenvector_future2.ttf" type="font" filename="data/assets/kenvector_future2.ttf"></Asset>
+	<Asset uid="27" scene="0" name="explorer" type="graphic" filename="data/assets/jli1.png" width="32" height="32">
+		<colorkey red="255" blue="255" green="255"/>
+		<sprite>
+			<animation>
+				<keyframes duration="150">
+					<!-- Wait 0 ms before switching to next frame -->
+					<keyframe x="1" y="1" w="32" h="32" group="up"/>
+					<keyframe x="35" y="1" w="32" h="32" group="up"/>
+					<keyframe x="69" y="1" w="32" h="32" group="down"/>
+					<keyframe x="103" y="1" w="32" h="32" group="down"/>
+					<keyframe x="137" y="1" w="32" h="32" group="left"/>
+					<keyframe x="171" y="1" w="32" h="32" group="left"/>
+					<keyframe x="205" y="1" w="32" h="32" group="right"/>
+					<keyframe x="239" y="1" w="32" h="32" group="right"/>
+				</keyframes>
+			</animation>
+		</sprite>
+	</Asset>
+
 </Assets>
