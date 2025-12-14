@@ -27,6 +27,9 @@
 #include "LevelManager.h"
 #include <mazer/EnemyMovedEvent.h>
 
+#include "EmbeddingLLM.h"
+#include "LLM.h"
+
 using namespace std;
 
 using namespace std;
@@ -175,6 +178,17 @@ int main(int, char* [])
 {
 	try
 	{
+		//LLM llm;
+
+		//llm.Initialize("C:\\Users\\stuar\\AppData\\Local\\llama.cpp\\TinyLlama_TinyLlama-1.1B-Chat-v0.6_ggml-model-q4_0.gguf");
+		//llm.Infer("What is the closest planet to earth? Stop when you have the answer.", 8);
+
+		EmbeddingLLM embedding;
+		embedding.Initialize();
+
+
+		mazer::GameDataManager::Get()->GameWorldData.IsGameDone = true;
+
 		// Load settings file
 		if (!SettingsManager::Get()->ReadSettingsFile("data/settings.xml"))
 		{
@@ -203,6 +217,8 @@ int main(int, char* [])
 		// Load level and create/add game objects
 		PrepareFirstLevel();
 
+		
+			
 		// Start the game loop.
 		// This will pump update/draw events onto the event system, which level objects subscribe to
 		infrastructure.DoGameLoop(&mazer::GameDataManager::Get()->GameWorldData);

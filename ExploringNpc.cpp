@@ -148,7 +148,7 @@ void ExploringNpc::Initialize()
 			// Set facing direction to the sampled direction
 			SetDirection(validMoveDirection);
 
-			return gamelib::BehaviorResult::Failure;
+			return gamelib::BehaviorResult::Success;
 
 		}, "Move");
 

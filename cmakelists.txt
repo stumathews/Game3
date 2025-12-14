@@ -19,8 +19,20 @@ find_package(SDL2_ttf CONFIG REQUIRED)
 find_package(SDL2_mixer REQUIRED)
 find_package(SDL2_image REQUIRED)
 find_package(mazer REQUIRED)
-
-add_executable(game3 main.cpp GameCommands.cpp InputManager.cpp LevelManager.cpp MoveProbabilityMatrix.cpp ExploringNpc.cpp)
+find_package(llama CONFIG REQUIRED)
+find_package(faiss CONFIG REQUIRED)
+add_executable(game3
+main.cpp 
+GameCommands.cpp 
+InputManager.cpp 
+LevelManager.cpp 
+MoveProbabilityMatrix.cpp 
+ExploringNpc.cpp 
+LLM.cpp
+common.cpp
+log.cpp
+EmbeddingLLM.cpp
+)
 
 target_link_libraries(game3 
 PUBLIC 
@@ -35,7 +47,9 @@ cppgamelib::cppgamelib
 mazer::mazer
 wsock32 
 ws2_32
-testlib::testlib 
+testlib::testlib
+llama
+faiss
 )
 
 # Copy test files in the output folder of the game3 target
