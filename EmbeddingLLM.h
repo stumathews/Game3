@@ -11,21 +11,18 @@ class EmbeddingLLM
 {
 public:
 
-    
-    int Initialize(std::string prompt = "Paris is the capital of France.", std::string modelPath = "C:\\Users\\stuar\\AppData\\Local\\llama.cpp\\CompendiumLabs_bge-small-en-v1.5-gguf_bge-small-en-v1.5-q4_k_m.gguf")
+    int Initialize(std::string modelPath = "C:\\Users\\stuar\\AppData\\Local\\llama.cpp\\CompendiumLabs_bge-small-en-v1.5-gguf_bge-small-en-v1.5-q4_k_m.gguf")
     {
         std::string modelLocation = modelPath;
-
-        common_params params;
-        params.prompt = prompt;
-        params.model.path = modelLocation;
-        params.kv_unified = true;
-        params.n_ctx = 512;
+             
 
         common_init();
 
+        params.model.path = modelLocation;
+        params.kv_unified = false;
+        params.n_ctx = 512;
         params.embedding = true;
-
+        
         // get max number of sequences per batch
         const int n_seq_max = llama_max_parallel_sequences();
 
@@ -53,10 +50,20 @@ public:
         llama_numa_init(params.numa);
 
         // load the model
-        common_init_result llama_init = common_init_from_params(params);
+        llama_init = common_init_from_params(params);
+
+        return 0;
+    }
+    
+    int GetEmbedding(std::string prompt = "Paris is the capital of France.")
+    {
 
         model = llama_init.model.get();
         ctx = llama_init.context.get();
+
+        const int n_seq_max = llama_max_parallel_sequences();
+
+        params.prompt = prompt;
 
         if (model == NULL) {
             printf("%s: unable to load model\n", __func__);
@@ -203,128 +210,14 @@ public:
         float* out = emb + e * n_embd;
         batch_decode(ctx, batch, out, s, n_embd, params.embd_normalize);
 
-        if (params.embd_out.empty()) {
-            printf("\n");
-
-            if (pooling_type == LLAMA_POOLING_TYPE_NONE) {
-                for (int j = 0; j < n_embd_count; j++) {
-                    printf("embedding %d: ", j);
-                    for (int i = 0; i < std::min(3, n_embd); i++) {
-                        if (params.embd_normalize == 0) {
-                            printf("%6.0f ", emb[j * n_embd + i]);
-                        }
-                        else {
-                            printf("%9.6f ", emb[j * n_embd + i]);
-                        }
-                    }
-                    printf(" ... ");
-                    for (int i = n_embd - 3; i < n_embd; i++) {
-                        if (params.embd_normalize == 0) {
-                            printf("%6.0f ", emb[j * n_embd + i]);
-                        }
-                        else {
-                            printf("%9.6f ", emb[j * n_embd + i]);
-                        }
-                    }
-                    printf("\n");
-                }
+        for (int i = 0; i < n_embd;i++)
+        {
+            float cur = emb[0 * n_embd + i];
+            printf("%f ", emb[0 * n_embd + i]);
+            if (i % 10 == 0)
+            {
+                printf("\n");
             }
-            else if (pooling_type == LLAMA_POOLING_TYPE_RANK) {
-                const uint32_t n_cls_out = llama_model_n_cls_out(model);
-                std::vector<std::string> cls_out_labels;
-
-                for (uint32_t i = 0; i < n_cls_out; i++) {
-                    const char* label = llama_model_cls_label(model, i);
-                    const std::string label_i(label == nullptr ? "" : label);
-                    cls_out_labels.emplace_back(label_i.empty() ? std::to_string(i) : label_i);
-                }
-
-                for (int j = 0; j < n_embd_count; j++) {
-                    for (uint32_t i = 0; i < n_cls_out; i++) {
-                        // NOTE: if you change this printf - update the tests in ci/run.sh
-                        if (n_cls_out == 1) {
-                            printf("rerank score %d: %8.3f\n", j, emb[j * n_embd]);
-                        }
-                        else {
-                            printf("rerank score %d: %8.3f [%s]\n", j, emb[j * n_embd + i], cls_out_labels[i].c_str());
-                        }
-                    }
-                }
-            }
-            else {
-                // print the first part of the embeddings or for a single prompt, the full embedding
-                for (int j = 0; j < n_prompts; j++) {
-                    printf("embedding %d: ", j);
-                    for (int i = 0; i < (n_prompts > 1 ? std::min(16, n_embd) : n_embd); i++) {
-                        if (params.embd_normalize == 0) {
-                            printf("%6.0f ", emb[j * n_embd + i]);
-                        }
-                        else {
-                            printf("%9.6f ", emb[j * n_embd + i]);
-                        }
-                    }
-                    printf("\n");
-                }
-
-                // print cosine similarity matrix
-                if (n_prompts > 1) {
-                    printf("\n");
-                    printf("cosine similarity matrix:\n\n");
-                    for (int i = 0; i < n_prompts; i++) {
-                        printf("%6.6s ", prompts[i].c_str());
-                    }
-                    printf("\n");
-                    for (int i = 0; i < n_prompts; i++) {
-                        for (int j = 0; j < n_prompts; j++) {
-                            float sim = common_embd_similarity_cos(emb + i * n_embd, emb + j * n_embd, n_embd);
-                            printf("%6.2f ", sim);
-                        }
-                        printf("%1.10s", prompts[i].c_str());
-                        printf("\n");
-                    }
-                }
-            }
-        }
-
-        if (params.embd_out == "json" || params.embd_out == "json+" || params.embd_out == "array") {
-            const bool notArray = params.embd_out != "array";
-
-            printf(notArray ? "{\n  \"object\": \"list\",\n  \"data\": [\n" : "[");
-            for (int j = 0;;) { // at least one iteration (one prompt)
-                if (notArray) printf("    {\n      \"object\": \"embedding\",\n      \"index\": %d,\n      \"embedding\": ", j);
-                printf("[");
-                for (int i = 0;;) { // at least one iteration (n_embd > 0)
-                    printf(params.embd_normalize == 0 ? "%1.0f" : "%1.7f", emb[j * n_embd + i]);
-                    i++;
-                    if (i < n_embd) printf(","); else break;
-                }
-                printf(notArray ? "]\n    }" : "]");
-                j++;
-                if (j < n_embd_count) printf(notArray ? ",\n" : ","); else break;
-            }
-            printf(notArray ? "\n  ]" : "]\n");
-
-            if (params.embd_out == "json+" && n_prompts > 1) {
-                printf(",\n  \"cosineSimilarity\": [\n");
-                for (int i = 0;;) { // at least two iteration (n_embd_count > 1)
-                    printf("    [");
-                    for (int j = 0;;) { // at least two iteration (n_embd_count > 1)
-                        float sim = common_embd_similarity_cos(emb + i * n_embd, emb + j * n_embd, n_embd);
-                        printf("%6.2f", sim);
-                        j++;
-                        if (j < n_embd_count) printf(", "); else break;
-                    }
-                    printf(" ]");
-                    i++;
-                    if (i < n_embd_count) printf(",\n"); else break;
-                }
-                printf("\n  ]");
-            }
-
-            if (notArray) printf("\n}\n");
-        }
-        else if (params.embd_out == "raw") {
-            print_raw_embeddings(emb, n_embd_count, n_embd, model, pooling_type, params.embd_normalize);
         }
 
         printf("\n");
@@ -338,9 +231,10 @@ public:
     }
 
 private:
-
+    common_init_result llama_init;
     llama_model* model;
     llama_context* ctx;
+    common_params params;
 	static std::vector<std::string> split_lines(const std::string& s, const std::string& separator = "\n") {
 		std::vector<std::string> lines;
 		size_t start = 0;
@@ -400,33 +294,6 @@ private:
 			float* out = output + embd_pos * n_embd;
 			common_embd_normalize(embd, out, n_embd, embd_norm);
 		}
-	}
-
-	// plain, pipe-friendly output: one embedding per line
-	static void print_raw_embeddings(const float* emb,
-		int n_embd_count,
-		int n_embd,
-		const llama_model* model,
-		enum llama_pooling_type pooling_type,
-		int embd_normalize) {
-		const uint32_t n_cls_out = llama_model_n_cls_out(model);
-		const bool is_rank = (pooling_type == LLAMA_POOLING_TYPE_RANK);
-		const int cols = is_rank ? std::min<int>(n_embd, (int)n_cls_out) : n_embd;
-
-		for (int j = 0; j < n_embd_count; ++j) {
-			for (int i = 0; i < cols; ++i) {
-				if (embd_normalize == 0) {
-					printf("%1.0f%s", emb[j * n_embd + i], (i + 1 < cols ? " " : ""));
-				}
-				else {
-					printf("%1.7f%s", emb[j * n_embd + i], (i + 1 < cols ? " " : ""));
-				}
-			}
-			printf("\n");
-		}
-	}
-
-
-    
+	}   
         
 };

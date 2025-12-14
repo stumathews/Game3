@@ -186,6 +186,8 @@ int main(int, char* [])
 		EmbeddingLLM embedding;
 		embedding.Initialize();
 
+		embedding.GetEmbedding();
+
 
 		mazer::GameDataManager::Get()->GameWorldData.IsGameDone = true;
 
