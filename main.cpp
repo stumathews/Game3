@@ -178,18 +178,17 @@ int main(int, char* [])
 {
 	try
 	{
-		//LLM llm;
+		LLM llm;
+		EmbeddingLLM embeddingModel;
 
-		//llm.Initialize("C:\\Users\\stuar\\AppData\\Local\\llama.cpp\\TinyLlama_TinyLlama-1.1B-Chat-v0.6_ggml-model-q4_0.gguf");
-		//llm.Infer("What is the closest planet to earth? Stop when you have the answer.", 8);
+		llm.Initialize();
+		embeddingModel.Initialize();
 
-		EmbeddingLLM embedding;
-		embedding.Initialize();
+		// Predict next 32 tokens
+		llm.Infer("What is the capital of France?", 10);
 
-		embedding.GetEmbedding();
-
-
-		mazer::GameDataManager::Get()->GameWorldData.IsGameDone = true;
+		// Get the embedding for the prompt
+		embeddingModel.PrintEmbeddingVectors(embeddingModel.GetEmbedding(), 1);
 
 		// Load settings file
 		if (!SettingsManager::Get()->ReadSettingsFile("data/settings.xml"))

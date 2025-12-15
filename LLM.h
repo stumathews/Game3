@@ -21,7 +21,7 @@ public:
 	 * @param ngl number of layers to offload to the GPU
 	 * @param n_predict number of tokens to predict
 	 */
-	void Initialize(std::string model_path, int ngl = 99)	
+	void Initialize(std::string model_path = "C:\\Users\\stuar\\AppData\\Local\\llama.cpp\\TinyLlama_TinyLlama-1.1B-Chat-v0.6_ggml-model-q4_0.gguf", int ngl = 99)
 	{
         // load dynamic backends
         ggml_backend_load_all();
@@ -131,10 +131,6 @@ public:
 
     ~LLM()
 	{
-        llama_perf_sampler_print(smpl);
-        llama_perf_context_print(ctx);
-        fprintf(stderr, "\n");
-
         llama_sampler_free(smpl);
         llama_free(ctx);
         llama_model_free(model);

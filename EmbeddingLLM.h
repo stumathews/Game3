@@ -22,6 +22,7 @@ public:
         params.kv_unified = false;
         params.n_ctx = 512;
         params.embedding = true;
+        params.verbose_prompt = true;
         
         // get max number of sequences per batch
         const int n_seq_max = llama_max_parallel_sequences();
@@ -29,20 +30,23 @@ public:
         // if the number of prompts that would be encoded is known in advance, it's more efficient to specify the
         //   --parallel argument accordingly. for convenience, if not specified, we fallback to unified KV cache
         //   in order to support any number of prompts
-        if (params.n_parallel == 1) {
+        if (params.n_parallel == 1) 
+        {
             printf("%s: n_parallel == 1 -> unified KV cache is enabled\n", __func__);
             params.kv_unified = true;
             params.n_parallel = n_seq_max;
         }
 
         // utilize the full context
-        if (params.n_batch < params.n_ctx) {
+        if (params.n_batch < params.n_ctx) 
+        {
             printf("%s: setting batch size to %d\n", __func__, params.n_ctx);
             params.n_batch = params.n_ctx;
         }
 
         // for non-causal models, batch size must be equal to ubatch size
-        if (params.attention_type != LLAMA_ATTENTION_TYPE_CAUSAL) {
+        if (params.attention_type != LLAMA_ATTENTION_TYPE_CAUSAL) 
+        {
             params.n_ubatch = params.n_batch;
         }
 
@@ -54,9 +58,35 @@ public:
 
         return 0;
     }
-    
-    int GetEmbedding(std::string prompt = "Paris is the capital of France.")
+
+    int GetEmbeddingModelDimensions()
     {
+        return llama_model_n_embd(model);
+    }
+
+    void PrintEmbeddingVectors(std::vector<float> embb, int count)
+    {
+        printf("PrintEmbeddingVectors:\n");
+        const int n_embd = GetEmbeddingModelDimensions();
+        float* emb = embb.data();
+        // print only the first vector (0) of n_embd floats
+        for (int i = 0; i < n_embd; i++)
+        {
+            for (int vector_number = 0; vector_number < count; vector_number++) 
+            {
+                float cur = emb[vector_number * n_embd + i];
+                printf("%f ", emb[vector_number * n_embd + i]);
+                if (i % 10 == 0)
+                {
+                    printf("\n");
+                }
+            }
+        }
+    }
+
+    std::vector<float> GetEmbedding(std::string prompt = "Paris is the capital of France.")
+    {
+        std::vector<float> embeddings;
 
         model = llama_init.model.get();
         ctx = llama_init.context.get();
@@ -65,9 +95,10 @@ public:
 
         params.prompt = prompt;
 
-        if (model == NULL) {
+        if (model == NULL) 
+        {
             printf("%s: unable to load model\n", __func__);
-            return 1;
+            return embeddings;
         }
 
         const llama_vocab* vocab = llama_model_get_vocab(model);
@@ -77,12 +108,14 @@ public:
 
         const enum llama_pooling_type pooling_type = llama_pooling_type(ctx);
 
-        if (llama_model_has_encoder(model) && llama_model_has_decoder(model)) {
+        if (llama_model_has_encoder(model) && llama_model_has_decoder(model)) 
+        {
             printf("%s: computing embeddings in encoder-decoder models is not supported\n", __func__);
-            return 1;
+            return embeddings;
         }
 
-        if (n_ctx > n_ctx_train) {
+        if (n_ctx > n_ctx_train) 
+        {
             printf("%s: warning: model was trained on only %d context tokens (%d specified)\n",
                 __func__, n_ctx_train, n_ctx);
         }
@@ -101,11 +134,13 @@ public:
 
         // tokenize the prompts and trim
         std::vector<std::vector<int32_t>> inputs;
-        for (const auto& prompt : prompts) {
+        for (const auto& prompt : prompts) 
+        {
             std::vector<llama_token> inp;
 
             // split classification pairs and insert expected separator tokens
-            if (pooling_type == LLAMA_POOLING_TYPE_RANK && prompt.find(params.cls_sep) != std::string::npos) {
+            if (pooling_type == LLAMA_POOLING_TYPE_RANK && prompt.find(params.cls_sep) != std::string::npos) 
+            {
                 std::vector<std::string> pairs = split_lines(prompt, params.cls_sep);
                 if (rerank_prompt != nullptr) {
                     const std::string query = pairs[0];
@@ -115,15 +150,20 @@ public:
                     string_replace_all(final_prompt, "{document}", doc);
                     inp = common_tokenize(vocab, final_prompt, true, true);
                 }
-                else {
+                else 
+                {
                     std::string final_prompt;
-                    for (size_t i = 0; i < pairs.size(); i++) {
+                    for (size_t i = 0; i < pairs.size(); i++) 
+                    {
                         final_prompt += pairs[i];
-                        if (i != pairs.size() - 1) {
-                            if (!added_eos_token.empty()) {
+                        if (i != pairs.size() - 1) 
+                        {
+                            if (!added_eos_token.empty()) 
+                            {
                                 final_prompt += added_eos_token;
                             }
-                            if (!added_sep_token.empty()) {
+                            if (!added_sep_token.empty()) 
+                            {
                                 final_prompt += added_sep_token;
                             }
                         }
@@ -131,29 +171,35 @@ public:
                     inp = common_tokenize(ctx, final_prompt, true, true);
                 }
             }
-            else {
+            else 
+            {
                 inp = common_tokenize(ctx, prompt, true, true);
             }
-            if (inp.size() > n_batch) {
+            if (inp.size() > n_batch) 
+            {
                 printf("%s: number of tokens in input line (%lld) exceeds batch size (%lld), increase batch size and re-run\n",
                     __func__, (long long int) inp.size(), (long long int) n_batch);
-                return 1;
+                return embeddings;
             }
             inputs.push_back(inp);
         }
 
         // check if the last token is SEP/EOS
         // it should be automatically added by the tokenizer when 'tokenizer.ggml.add_eos_token' is set to 'true'
-        for (auto& inp : inputs) {
-            if (inp.empty() || (inp.back() != llama_vocab_sep(vocab) && inp.back() != llama_vocab_eos(vocab))) {
+        for (auto& inp : inputs) 
+        {
+            if (inp.empty() || (inp.back() != llama_vocab_sep(vocab) && inp.back() != llama_vocab_eos(vocab))) 
+            {
                 printf("%s: last token in the prompt is not SEP or EOS\n", __func__);
                 printf("%s: 'tokenizer.ggml.add_eos_token' should be set to 'true' in the GGUF header\n", __func__);
             }
         }
 
         // tokenization stats
-        if (params.verbose_prompt) {
-            for (int i = 0; i < (int)inputs.size(); i++) {
+        if (params.verbose_prompt) 
+        {
+            for (int i = 0; i < (int)inputs.size(); i++) 
+            {
                 printf("%s: prompt %d: '%s'\n", __func__, i, prompts[i].c_str());
                 printf("%s: number of tokens in prompt = %zu\n", __func__, inputs[i].size());
                 for (int j = 0; j < (int)inputs[i].size(); j++) {
@@ -169,18 +215,26 @@ public:
 
         // count number of embeddings
         int n_embd_count = 0;
-        if (pooling_type == LLAMA_POOLING_TYPE_NONE) {
-            for (int k = 0; k < n_prompts; k++) {
+        if (pooling_type == LLAMA_POOLING_TYPE_NONE) 
+        {
+            for (int k = 0; k < n_prompts; k++) 
+            {
                 n_embd_count += inputs[k].size();
             }
         }
-        else {
+        else 
+        {
+            // How many embedding vectors to create is based on the number of prompts
             n_embd_count = n_prompts;
         }
 
-        // allocate output
+
+        // Get the embedding dimension of the model, eg. d=384
         const int n_embd = llama_model_n_embd(model);
-        std::vector<float> embeddings(n_embd_count * n_embd, 0);
+
+        // allocate output
+        embeddings.resize(n_embd_count * n_embd, 0);
+
         float* emb = embeddings.data();
 
         // break into batches
@@ -210,24 +264,14 @@ public:
         float* out = emb + e * n_embd;
         batch_decode(ctx, batch, out, s, n_embd, params.embd_normalize);
 
-        for (int i = 0; i < n_embd;i++)
-        {
-            float cur = emb[0 * n_embd + i];
-            printf("%f ", emb[0 * n_embd + i]);
-            if (i % 10 == 0)
-            {
-                printf("\n");
-            }
-        }
-
-        printf("\n");
-        llama_perf_context_print(ctx);
+        // we have the embedding vectors now, return them        
 
         // clean up
         llama_batch_free(batch);
         llama_backend_free();
 
-        return 0;
+        // return vector of dimension n_embd (eg.384) such that emb[n_embd-1] is last float in the first vector
+        return embeddings;
     }
 
 private:
@@ -235,7 +279,9 @@ private:
     llama_model* model;
     llama_context* ctx;
     common_params params;
-	static std::vector<std::string> split_lines(const std::string& s, const std::string& separator = "\n") {
+
+	static std::vector<std::string> split_lines(const std::string& s, const std::string& separator = "\n")
+	{
 		std::vector<std::string> lines;
 		size_t start = 0;
 		size_t end = s.find(separator);
@@ -251,7 +297,8 @@ private:
 		return lines;
 	}
 
-	static void batch_add_seq(llama_batch& batch, const std::vector<int32_t>& tokens, llama_seq_id seq_id) {
+	static void batch_add_seq(llama_batch& batch, const std::vector<int32_t>& tokens, llama_seq_id seq_id)
+	{
 		size_t n_tokens = tokens.size();
 		for (size_t i = 0; i < n_tokens; i++) {
 			common_batch_add(batch, tokens[i], i, { seq_id }, true);
