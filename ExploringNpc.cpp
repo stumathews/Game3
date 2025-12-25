@@ -6,7 +6,7 @@
 #include <events/ControllerMoveEvent.h>
 #include <utils/Utils.h>
 #include "character/Hotspot.h"
-#include <ai\InlineBehavioralAction.h>
+#include <ai/InlineBehavioralAction.h>
 #include <file/SettingsManager.h>
 
 namespace
@@ -51,7 +51,7 @@ void ExploringNpc::Initialize()
 			}
 
 			// Detect if NPC has moved into the bounds of any adjacent rooms
-			const auto myHotspot = this->Hotspot->GetBounds();
+			const auto myHotspot = this->TheHotspot->GetBounds();
 
 			SDL_Rect _;
 
@@ -230,7 +230,7 @@ void ExploringNpc::Draw(SDL_Renderer* renderer)
 	Npc::Draw(renderer);
 
 	if (drawNpcHotspot) {
-		Hotspot->Draw(renderer);
+		TheHotspot->Draw(renderer);
 	}
 
 	if (drawRoomCross) {

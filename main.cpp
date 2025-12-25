@@ -1,12 +1,11 @@
 //#include "SDL.h"
 #include <vector>
-#include <cppgamelib\file\Logger.h>
-#include <cppgamelib\file\SettingsManager.h>
-#include <cppgamelib\file/TextFile.h>
-#include <cppgamelib\structure/GameStructure.h>
-#include <cppgamelib\structure/FixedStepGameLoop.h>
+#include <cppgamelib/file/Logger.h>
+#include <cppgamelib/file/SettingsManager.h>
+#include <cppgamelib/file/TextFile.h>
+#include <cppgamelib/structure/GameStructure.h>
+#include <cppgamelib/structure/FixedStepGameLoop.h>
 #include <cppgamelib/objects/GameWorldData.h>
-#include <direct.h>
 #include <GameData.h>
 #include <GameDataManager.h>
 #include <iostream>
@@ -15,20 +14,25 @@
 #include <events/PlayerMovedEvent.h>
 #include <events/UpdateProcessesEvent.h>
 #include <Logging/ErrorLogManager.h>
-#include <testlib/messages.h>
+#include <testlib/Messages.h>
 #include <mazer/Enemy.h>
 #include <mazer/Room.h>
 #include <net/NetworkManager.h>
 #include <scene/SceneManager.h>
 #include <cppgamelib/events/AddGameObjectToCurrentSceneEvent.h>
 #include <cppgamelib/events/UpdateAllGameObjectsEvent.h>
-#include <direct.h>
 
 #include "LevelManager.h"
 #include <mazer/EnemyMovedEvent.h>
 
 #include "EmbeddingLLM.h"
 #include "LLM.h"
+
+#ifdef _WIN32
+    #include <direct.h>  // For _getcwd
+#else
+    #include <unistd.h>  // For getcwd
+#endif
 
 using namespace std;
 
@@ -178,6 +182,7 @@ int main(int, char* [])
 {
 	try
 	{
+		/*
 		LLM llm;
 		EmbeddingLLM embeddingModel;
 
@@ -189,12 +194,17 @@ int main(int, char* [])
 
 		// Get the embedding for the prompt
 		embeddingModel.PrintEmbeddingVectors(embeddingModel.GetEmbedding(), 1);
+		*/
 
 		// Load settings file
 		if (!SettingsManager::Get()->ReadSettingsFile("data/settings.xml"))
 		{
 			char cwd[1024];
-			if (_getcwd(cwd, sizeof(cwd)) != nullptr)
+#ifdef _WIN32
+    if (_getcwd(cwd, sizeof(cwd)) != nullptr)
+#else
+    if (getcwd(cwd, sizeof(cwd)) != nullptr)
+#endif
 			{
 				std::cout << "Current working directory: " << cwd << "\n";
 			}

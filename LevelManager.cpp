@@ -133,22 +133,22 @@ void LevelManager::OnEnemyCollision(const std::shared_ptr<Event>& evt)
 	const auto collisionEvent = To<PlayerCollidedWithEnemyEvent>(evt);
 
 	// Extract the enemies hit point value from the enemy's properties
-	const auto& enemyHitPoints = collisionEvent->Enemy->StringProperties["HitPoint"];
+	const auto& enemyHitPoints = collisionEvent->TheEnemy->StringProperties["HitPoint"];
 
 	stringstream message;
-	message << "Player health is " << to_string(collisionEvent->Player->GetHealth());
+	message << "Player health is " << to_string(collisionEvent->ThePlayer->GetHealth());
 
 	// Reduce the player's health by the enemy's hit points
-	collisionEvent->Player->IntProperties["Health"] -= strtol(enemyHitPoints.c_str(), nullptr, 0);
+	collisionEvent->ThePlayer->IntProperties["Health"] -= strtol(enemyHitPoints.c_str(), nullptr, 0);
 
 	// Print the player's health to the console
 	Logger::Get()->LogThis(message.str());
 
 	// Update the player's health (this will be reflected on the HUD)
-	playerHealth->Text = to_string(collisionEvent->Player->GetHealth());
+	playerHealth->Text = to_string(collisionEvent->ThePlayer->GetHealth());
 
 	// Check if the player is dead
-	if(collisionEvent->Player->GetHealth() <= 0)
+	if(collisionEvent->ThePlayer->GetHealth() <= 0)
 	{
 		// Raise event to indicate the player has died
 		eventManager->RaiseEvent(To<Event>(eventFactory->CreateGenericEvent(PlayerDiedEventId, GetSubscriberName())), this);
@@ -161,16 +161,16 @@ void LevelManager::OnPickupCollision(const std::shared_ptr<Event>& evt) const
 	const auto collisionEvent = To<PlayerCollidedWithPickupEvent>(evt);
 
 	// Extract the pickup value from the pickup's properties
-	const auto& pickupValue = collisionEvent->Pickup->StringProperties["value"];
+	const auto& pickupValue = collisionEvent->ThePickup->StringProperties["value"];
 		
 	// Update the player's points (Increase them on collision with the pickup)
-	collisionEvent->Player->IntProperties["Points"] += strtol(pickupValue.c_str(), nullptr, 0);
+	collisionEvent->ThePlayer->IntProperties["Points"] += strtol(pickupValue.c_str(), nullptr, 0);
 
 	// Print the player's points to the console
 	stringstream message;
-	message << "Player gain " << to_string(collisionEvent->Player->GetPoints()) << " points";
+	message << "Player gain " << to_string(collisionEvent->ThePlayer->GetPoints()) << " points";
 
-	playerPoints->Text = to_string(collisionEvent->Player->GetPoints());
+	playerPoints->Text = to_string(collisionEvent->ThePlayer->GetPoints());
 
 	Logger::Get()->LogThis(playerPoints->Text);
 }
@@ -228,7 +228,9 @@ void LevelManager::RemoveAllGameObjects()
 	};
 
 	// Iterate through all game object and raise event to remove them
-	ranges::for_each(GameData::Get()->GameObjects, condition);
+	std::for_each(GameData::Get()->GameObjects.begin(),
+              GameData::Get()->GameObjects.end(),
+              condition);
 
 	// Remove all pickups also
 	pickups.clear();

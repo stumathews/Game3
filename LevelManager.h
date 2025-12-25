@@ -12,7 +12,7 @@
 #include <character/StaticSprite.h>
 #include "Enemy.h"
 #include "InputManager.h"
-#include "Pickup.h"
+#include "pickup.h"
 #include "graphic/DrawableText.h"
 #include "net/GameStatePusher.h"
 #include "net/NetworkingActivityMonitor.h"

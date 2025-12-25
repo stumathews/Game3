@@ -1,5 +1,5 @@
 #include "GameCommands.h"
-#include <cppgamelib/common/common.h>
+#include <cppgamelib/common/Common.h>
 #include <memory>
 #include <cppgamelib/events/ControllerMoveEvent.h>
 #include <cppgamelib/events/SceneChangedEvent.h>
