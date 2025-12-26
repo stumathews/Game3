@@ -12,7 +12,7 @@
     },
     {
       "kind": "git",
-      "baseline": "40ff76dc005ff8e7ab6392a23939dbb4ef1c7235",
+      "baseline": "cf746b4d67c8280a722f42c140a86ceefb0ae62d",
       "reference": "master",
       "repository": "https://github.com/stumathews/vcpkg-registry",
       "packages": [

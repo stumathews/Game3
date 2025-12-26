@@ -13,6 +13,7 @@ find_package(testlib CONFIG REQUIRED)
 find_package(cppgamelib CONFIG REQUIRED)
 find_package(unofficial-sodium CONFIG REQUIRED)
 find_package(GTest CONFIG REQUIRED)
+find_package(Lua CONFIG REQUIRED)
 
 find_package(SDL2 CONFIG REQUIRED)
 find_package(SDL2_ttf CONFIG REQUIRED)
@@ -86,6 +87,7 @@ cppgamelib::cppgamelib
 mazer::mazer
 testlib::testlib
 llama
+${LUA_LIBRARIES}
 )
 
 if(WIN32)
@@ -125,6 +127,7 @@ if(TEST_SOURCES)
             GTest::GTest
             mazer::mazer
             llama
+	    ${LUA_LIBRARIES}
     )
 
     if(WIN32)
