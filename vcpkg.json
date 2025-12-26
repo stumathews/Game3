@@ -13,6 +13,7 @@
     "gtest",
     "sdl2",
     "sdl2-ttf",
+    "tinyxml2",
     "sdl2-mixer",
     "sdl2-image",
     "llama-cpp",

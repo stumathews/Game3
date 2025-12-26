@@ -9,6 +9,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Restrict to debug and release builds not things like MinSizeRel and RelWithDebInfo
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "" FORCE)
 
+find_package(tinyxml2 CONFIG REQUIRED)
 find_package(testlib CONFIG REQUIRED)
 find_package(cppgamelib CONFIG REQUIRED)
 find_package(unofficial-sodium CONFIG REQUIRED)
@@ -88,6 +89,7 @@ mazer::mazer
 testlib::testlib
 llama
 ${LUA_LIBRARIES}
+tinyxml2::tinyxml2
 )
 
 if(WIN32)
@@ -128,6 +130,7 @@ if(TEST_SOURCES)
             mazer::mazer
             llama
 	    ${LUA_LIBRARIES}
+	    tinyxml2::tinyxml2
     )
 
     if(WIN32)
