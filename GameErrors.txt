@@ -1,8 +1,0 @@
-****ERROR****
-25-11-2025 22:20:14
-Error: 1
-Desc: Failed to load resources file
-Src: /home/stuart/repos/vcpkg/buildtrees/cppgamelib/src/v1.2.31-4f5e0105ad.clean/resource/ResourceManager.cpp
-Line: 175
-Subsystem: resource manager
-*************

@@ -92,8 +92,8 @@ namespace
 		constexpr auto screenWidth = 0; // 0 will mean it will get read from the settings file
 		constexpr auto screenHeight = 0; // 0 will mean it will get read from the settings file
 		constexpr auto windowTitle = "Mazer2D!";
-		constexpr auto resourcesFilePath = "data\\Resources.xml";
-		constexpr auto sceneFolderPath = "data\\";
+		constexpr auto resourcesFilePath = "data//Resources.xml";
+		constexpr auto sceneFolderPath = "data//";
 
 		// Initialize network subsystem
 		const auto isNetworkGame = SettingsManager::Get()->GetBool("global", "isNetworkGame");
