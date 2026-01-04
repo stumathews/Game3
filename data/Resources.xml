@@ -231,5 +231,5 @@
 			</animation>
 		</sprite>
 	</Asset>
-
+    <Asset uid="28" scene="0" name="TestScript" type="script" filename="data/assets/TestScript.lua"/>
 </Assets>

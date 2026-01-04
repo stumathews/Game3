@@ -6,8 +6,9 @@
 #include <events/ControllerMoveEvent.h>
 #include <utils/Utils.h>
 #include "character/Hotspot.h"
-#include <ai/InlineBehavioralAction.h>
+#include <ai/InlineAction.h>
 #include <file/SettingsManager.h>
+#include <ai/ScriptedBehavior.h>
 
 namespace
 {
@@ -39,7 +40,7 @@ void ExploringNpc::Initialize()
 	// Initialize the Behavior tree
 
 	
-	auto* move = new gamelib::InlineBehavioralAction([&](const unsigned long deltaMs)
+	auto* move = new gamelib::ai::InlineAction([&](const unsigned long deltaMs)
 		{
 			// Continue moving in current direction
 			const auto movement = std::make_shared<gamelib::MovementAtSpeed>(1, currentFacingDirection, deltaMs);
@@ -135,11 +136,11 @@ void ExploringNpc::Initialize()
 
 			hasReachedCenter = horizontalLineHit && verticalLineHit;
 
-			return gamelib::BehaviorResult::Success;
+			return gamelib::Status::Success;
 
 		}, "Move");
 
-	auto* decide = new gamelib::InlineBehavioralAction([&](const unsigned long deltaMs)
+	auto* decide = new gamelib::ai::InlineAction([&](const unsigned long deltaMs)
 		{
 			std::cout << "Deciding.\n";
 			// Decide next direction to move in
@@ -148,28 +149,31 @@ void ExploringNpc::Initialize()
 			// Set facing direction to the sampled direction
 			SetDirection(validMoveDirection);
 
-			return gamelib::BehaviorResult::Success;
+			return gamelib::Status::Success;
 
 		}, "Move");
 
-	auto* notInCenterOfRoom = new gamelib::InlineBehavioralAction([&](const unsigned long deltaMs)
+	auto* notInCenterOfRoom = new gamelib::ai::InlineAction([&](const unsigned long deltaMs)
 	{
 		return hasReachedCenter
-			? gamelib::BehaviorResult::Failure
-			: gamelib::BehaviorResult::Success;
+			? gamelib::Status::Failure
+			: gamelib::Status::Success;
 	});
 
-	auto* isInCenterOfRoom = new gamelib::InlineBehavioralAction([&](const unsigned long deltaMs)
+	auto* isInCenterOfRoom = new gamelib::ai::InlineAction([&](const unsigned long deltaMs)
 		{
 			return hasReachedCenter
-				? gamelib::BehaviorResult::Success
-				: gamelib::BehaviorResult::Failure;
+				? gamelib::Status::Success
+				: gamelib::Status::Failure;
 		});
 
+	auto* scriptedBehavior = new gamelib::ScriptedBehavior("TestScript", 20);
+
 	behaviorTree = behaviorTree = BehaviorTreeBuilder()
-		.ActiveNodeSelector()		
-			.Sequence("MoveIntoCenter").Condition(notInCenterOfRoom).Action(move).Condition(isInCenterOfRoom).Action(decide).Finish()      
+		.ActiveSelector()
+			.Sequence("MoveIntoCenter").Condition(notInCenterOfRoom).Action(move).Condition(isInCenterOfRoom).Action(decide).Finish()
 	        .Sequence("MoveOutOfCenter").Condition(isInCenterOfRoom).Action(move).Finish()
+			.Action(scriptedBehavior)
 		.End();
 }
 

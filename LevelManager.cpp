@@ -70,7 +70,7 @@ bool LevelManager::Initialize()
 	eventManager->SubscribeToEvent(mazer::InvalidMoveEventId, this);
 	eventManager->SubscribeToEvent(mazer::FetchedPickupEventId, this);
 	eventManager->SubscribeToEvent(GameObjectTypeEventId, this);
-	eventManager->SubscribeToEvent(LevelChangedEventTypeEventId, this);
+	eventManager->SubscribeToEvent(SceneChangedEventTypeEventId, this);
 	eventManager->SubscribeToEvent(NetworkPlayerJoinedEventId, this);
 	eventManager->SubscribeToEvent(StartNetworkLevelEventId, this);
 	eventManager->SubscribeToEvent(UpdateProcessesEventId, this);
@@ -88,7 +88,7 @@ bool LevelManager::Initialize()
 ListOfEvents LevelManager::HandleEvent(const std::shared_ptr<Event>& evt, const unsigned long inDeltaMs)
 {
 	// Response to level changing
-	if(evt->Id.PrimaryId == LevelChangedEventTypeEventId.PrimaryId) { OnLevelChanged(evt); }
+	if(evt->Id.PrimaryId == SceneChangedEventTypeEventId.PrimaryId) { OnLevelChanged(evt); }
 
 	// Respond to event to update level processes
 	if(evt->Id.PrimaryId == UpdateProcessesEventId.PrimaryId) { processManager.UpdateProcesses(inDeltaMs); }
