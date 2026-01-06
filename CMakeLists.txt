@@ -75,6 +75,10 @@ LLM.cpp
 common.cpp
 log.cpp
 EmbeddingLLM.cpp
+        DecideNextDirection.cpp
+        IsInCenterOfRoom.cpp
+        MoveInCurrentDirection.cpp
+        NotIncenterOfRoom.cpp
 )
 
 target_link_libraries(game3 

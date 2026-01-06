@@ -2,31 +2,17 @@
 
 #include <GameObjectMoveStrategy.h>
 #include <Rooms.h>
-#include <character/MovementAtSpeed.h>
 #include <events/ControllerMoveEvent.h>
-#include <utils/Utils.h>
 #include "character/Hotspot.h"
-#include <ai/InlineAction.h>
 #include <file/SettingsManager.h>
 #include <ai/ScriptedBehavior.h>
-
-namespace
-{
-	static SDL_Rect line_to_rect(const gamelib::Line& line, const bool isHorizontal)
-	{
-		const auto w = isHorizontal
-			? line.X2 - line.X1
-			: 1;
-		const auto h = isHorizontal
-			? 1
-			: line.Y2 - line.Y1;
-
-		return SDL_Rect{ line.X1, line.Y1, w, h};
-	}
-}
+#include <ai/BehaviorTree.h>
+#include <ai/BehaviorTreeBuilder.h>
+#include "MoveInCurrentDirection.h"
 
 void ExploringNpc::Initialize()
 {
+	// Read in settings
 	drawNpcCross = gamelib::SettingsManager::Get()->GetBool("WanderingNPC", "drawNpcCross");
 	drawRoomCross = gamelib::SettingsManager::Get()->GetBool("WanderingNPC", "drawRoomCross");
 	drawNpcHotspot = gamelib::SettingsManager::Get()->GetBool("WanderingNPC", "drawNpcHotspot");
@@ -37,142 +23,18 @@ void ExploringNpc::Initialize()
 	// Setup game object move strategy
 	gameObjectMoveStrategy = std::make_shared<mazer::GameObjectMoveStrategy>(shared_from_this(), currentRoomInfo);
 
-	// Initialize the Behavior tree
+	// Construct our behaviours
+	moveInCurrentDirection = new MoveInCurrentDirection(shared_from_this());
+	decide = new DecideNextDirection(shared_from_this());
+	notInCenterOfRoom = new NotIncenterOfRoom(shared_from_this());
+	isInCenterOfRoom = new IsInCenterOfRoom(shared_from_this());
+	scriptedBehavior = new gamelib::ScriptedBehavior("TestScript", 20);
 
-	
-	auto* move = new gamelib::ai::InlineAction([&](const unsigned long deltaMs)
-		{
-			// Continue moving in current direction
-			const auto movement = std::make_shared<gamelib::MovementAtSpeed>(1, currentFacingDirection, deltaMs);
-			const auto isValidMove = gameObjectMoveStrategy->MoveGameObject(movement);
-
-			if (!isValidMove)
-			{
-				std::cout << "Invalid move!\n";
-			}
-
-			// Detect if NPC has moved into the bounds of any adjacent rooms
-			const auto myHotspot = this->TheHotspot->GetBounds();
-
-			SDL_Rect _;
-
-			const auto topRoom = currentRoom->GetSideRoom(gamelib::Side::Top);
-			const auto bottomRoom = currentRoom->GetSideRoom(gamelib::Side::Bottom);
-			const auto leftRoom = currentRoom->GetSideRoom(gamelib::Side::Left);
-			const auto rightRoom = currentRoom->GetSideRoom(gamelib::Side::Right);
-
-			// If only within one of the adjacent rooms means NPC is in only one room
-			auto inCountRooms = 0;
-
-			if (SDL_IntersectRect(&topRoom->InnerBounds, &myHotspot, &_))
-			{
-				currentRoom = topRoom;
-				inCountRooms++;
-			}
-
-			if (SDL_IntersectRect(&bottomRoom->InnerBounds, &myHotspot, &_))
-			{
-				currentRoom = bottomRoom;
-				inCountRooms++;
-			}
-
-			if (SDL_IntersectRect(&leftRoom->InnerBounds, &myHotspot, &_))
-			{
-				currentRoom = leftRoom;
-				inCountRooms++;
-			}
-
-			if (SDL_IntersectRect(&rightRoom->InnerBounds, &myHotspot, &_))
-			{
-				currentRoom = rightRoom;
-				inCountRooms++;
-			}
-
-			isWithinSingleRoom = inCountRooms == 1;
-
-			if (isWithinSingleRoom)
-			{				
-				currentRoomInfo->SetCurrentRoom(currentRoom);
-			}
-
-			// Work out the geometry that defines a cross the splits the room equally into 4 sections,
-			// such as to define a central point being the intersection of the NPCs hotspot it
-
-			const auto horizontalLineStartX = currentRoom->GetX();
-			const auto horizontalLineStartY = currentRoom->GetY() + currentRoom->GetHeight() / 2;
-			const auto horizontalLineEndX = currentRoom->GetX() + currentRoom->GetWidth();
-			const auto horizontalLIneEndY = currentRoom->GetY() + currentRoom->GetHeight() / 2;
-
-			const auto horizontalCenterLine = gamelib::Line(
-				horizontalLineStartX, horizontalLineStartY,
-				horizontalLineEndX, horizontalLIneEndY);
-
-			const auto verticalLineStartX = currentRoom->GetX() + currentRoom->GetWidth() / 2;
-			const auto verticalLineStartY = currentRoom->GetY();
-			const auto verticalLineEndX = currentRoom->GetX() + currentRoom->GetWidth() / 2;
-			const auto verticalLineEndY = currentRoom->GetY() + currentRoom->GetHeight();
-
-			const auto verticalCenterLine = gamelib::Line(verticalLineStartX, verticalLineStartY,
-				verticalLineEndX, verticalLineEndY);
-
-			// We will use booleans flags to indicate if NPC has intersected with lines of the cross
-			auto horizontalLineHit = false;
-			auto verticalLineHit = false;
-
-			// Turn the line into s SDL_Rect for collision detection
-			const auto horizontalLineAsRect = line_to_rect(horizontalCenterLine, true);
-			const auto verticalLineAsRect = line_to_rect(verticalCenterLine, false);
-
-			// Perform collision detection
-			if (SDL_IntersectRect(&horizontalLineAsRect, &myHotspot, &_))
-			{
-				horizontalLineHit = true;
-			}
-
-			if (SDL_IntersectRect(&verticalLineAsRect, &myHotspot, &_))
-			{
-				verticalLineHit = true;
-			}
-
-			hasReachedCenter = horizontalLineHit && verticalLineHit;
-
-			return gamelib::Status::Success;
-
-		}, "Move");
-
-	auto* decide = new gamelib::ai::InlineAction([&](const unsigned long deltaMs)
-		{
-			std::cout << "Deciding.\n";
-			// Decide next direction to move in
-			const auto validMoveDirection = moveProbabilityMatrix->SelectAction(currentRoom);
-
-			// Set facing direction to the sampled direction
-			SetDirection(validMoveDirection);
-
-			return gamelib::Status::Success;
-
-		}, "Move");
-
-	auto* notInCenterOfRoom = new gamelib::ai::InlineAction([&](const unsigned long deltaMs)
-	{
-		return hasReachedCenter
-			? gamelib::Status::Failure
-			: gamelib::Status::Success;
-	});
-
-	auto* isInCenterOfRoom = new gamelib::ai::InlineAction([&](const unsigned long deltaMs)
-		{
-			return hasReachedCenter
-				? gamelib::Status::Success
-				: gamelib::Status::Failure;
-		});
-
-	auto* scriptedBehavior = new gamelib::ScriptedBehavior("TestScript", 20);
-
+	// Set up the Behaviour tree with our behaviors
 	behaviorTree = behaviorTree = BehaviorTreeBuilder()
 		.ActiveSelector()
-			.Sequence("MoveIntoCenter").Condition(notInCenterOfRoom).Action(move).Condition(isInCenterOfRoom).Action(decide).Finish()
-	        .Sequence("MoveOutOfCenter").Condition(isInCenterOfRoom).Action(move).Finish()
+			.Sequence("MoveIntoCenter").Condition(notInCenterOfRoom).Action(moveInCurrentDirection).Condition(isInCenterOfRoom).Action(decide).Finish()
+	        .Sequence("MoveOutOfCenter").Condition(isInCenterOfRoom).Action(moveInCurrentDirection).Finish()
 			.Action(scriptedBehavior)
 		.End();
 }
@@ -244,5 +106,13 @@ void ExploringNpc::Draw(SDL_Renderer* renderer)
 	if (drawNpcCross) {
 		DrawMyCross(renderer);
 	}
+}
 
+ExploringNpc::~ExploringNpc()
+{
+	delete moveInCurrentDirection;
+	delete decide;
+	delete notInCenterOfRoom;
+	delete isInCenterOfRoom;
+	delete scriptedBehavior;
 }
