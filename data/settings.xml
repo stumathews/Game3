@@ -26,6 +26,11 @@
 		<setting name="disableCharacters" type="bool">false</setting>
 	</global>
 
+	<llm>
+		<setting name="InferringLLMModelPath" type="string">data//TinyLlama-1.1B-Chat-v0.6.Q4_0.gguf</setting>
+		<setting name="EmbeddingModelPath" type="string">data//bge-small-en-v1.5-q4_k_m.gguf</setting>
+	</llm>
+
 	<gamecommands>
 		<setting name="logCommands" type="bool">false</setting>
 	</gamecommands>
@@ -36,7 +41,7 @@
 		<setting name="gameServerPort" type="string">9090</setting>
 		<setting name="maxPlayers" type="int">4</setting>
 		<setting name="nickname" type="string">Surface4</setting>
-		<!-- If its not TCP, we're using 'connected' udp -->
+		<!-- If it's not TCP, we're using 'connected' udp -->
 		<setting name="isTcp" type="bool">false</setting>
 		<setting name="useReliableUdp" type="bool">true</setting>
 		<setting name="useEncryption" type="bool">true</setting>

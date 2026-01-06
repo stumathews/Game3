@@ -182,19 +182,8 @@ int main(int, char* [])
 {
 	try
 	{
-		/*
-		LLM llm;
-		EmbeddingLLM embeddingModel;
 
-		llm.Initialize();
-		embeddingModel.Initialize();
 
-		// Predict next 32 tokens
-		llm.Infer("What is the capital of France?", 10);
-
-		// Get the embedding for the prompt
-		embeddingModel.PrintEmbeddingVectors(embeddingModel.GetEmbedding(), 1);
-		*/
 
 		// Load settings file
 		if (!SettingsManager::Get()->ReadSettingsFile("data/settings.xml"))
@@ -228,8 +217,21 @@ int main(int, char* [])
 		// Load level and create/add game objects
 		PrepareFirstLevel();
 
-		
-			
+		auto inferringLLMModelPath = Settings::Get()->GetString("llm", "InferringLLMModelPath");
+		auto embeddingModelPath = Settings::Get()->GetString("llm", "EmbeddingModelPath");
+
+		LLM llm;
+		EmbeddingLLM embeddingModel;
+
+		llm.Initialize(inferringLLMModelPath);
+		embeddingModel.Initialize(embeddingModelPath);
+
+		// Make 1 prediction
+		llm.Infer("What is the largest city in France?", 10);
+
+		// Get the embedding for the prompt
+		embeddingModel.PrintEmbeddingVectors(embeddingModel.GetEmbedding(), 1);
+
 		// Start the game loop.
 		// This will pump update/draw events onto the event system, which level objects subscribe to
 		infrastructure.DoGameLoop(&mazer::GameDataManager::Get()->GameWorldData);

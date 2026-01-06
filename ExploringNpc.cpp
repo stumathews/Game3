@@ -30,7 +30,7 @@ void ExploringNpc::Initialize()
 	isInCenterOfRoom = new IsInCenterOfRoom(shared_from_this());
 	scriptedBehavior = new gamelib::ScriptedBehavior("TestScript", 20);
 
-	// Set up the Behaviour tree with our behaviors
+	// Set up the Behaviour tree with our behaviours
 	behaviorTree = behaviorTree = BehaviorTreeBuilder()
 		.ActiveSelector()
 			.Sequence("MoveIntoCenter").Condition(notInCenterOfRoom).Action(moveInCurrentDirection).Condition(isInCenterOfRoom).Action(decide).Finish()
