@@ -108,13 +108,6 @@ void LLM::Infer(const std::string &userPrompt, const int n_predict)
     fprintf(stderr, "\n");
 }
 
-LLM::~LLM()
-{
-    llama_sampler_free(smpl);
-    llama_free(ctx);
-    llama_model_free(model);
-}
-
 void LLM::InitializeModel(const std::string &modelPath, const int ngl)
 {
     auto modelParameters = llama_model_default_params();

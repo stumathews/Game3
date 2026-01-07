@@ -79,6 +79,8 @@ EmbeddingLLM.cpp
         IsInCenterOfRoom.cpp
         MoveInCurrentDirection.cpp
         NotIncenterOfRoom.cpp
+        StreamingLLM.cpp
+        StreamingLLM.h
 )
 
 target_link_libraries(game3 

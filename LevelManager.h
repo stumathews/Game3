@@ -64,7 +64,7 @@ public:
     void InitializeRooms(const std::vector<std::shared_ptr<mazer::Room>>& rooms);
 
     void RemoveAllGameObjects();
-
+    void AddGameObjectToScene(const std::shared_ptr<gamelib::GameObject>& gameObject);
 protected:
     static LevelManager* instance;
     
@@ -91,7 +91,7 @@ private:
     std::shared_ptr<mazer::Player> player;
     std::vector<std::shared_ptr<mazer::Pickup>> pickups;
     unsigned int currentLevel = 1;
-    void AddGameObjectToScene(const std::shared_ptr<gamelib::GameObject>& gameObject);
+
     void AddScreenWidgets(const std::vector<std::shared_ptr<mazer::Room>>& rooms);
     void CreateExploringNpc(const std::vector<std::shared_ptr<mazer::Room>>& rooms);
     void CreateAutoPickups(const std::vector<std::shared_ptr<mazer::Room>>& rooms);

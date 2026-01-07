@@ -27,6 +27,7 @@
 
 #include "EmbeddingLLM.h"
 #include "LLM.h"
+#include "StreamingLLM.h"
 
 #ifdef _WIN32
     #include <direct.h>  // For _getcwd
@@ -217,20 +218,24 @@ int main(int, char* [])
 		// Load level and create/add game objects
 		PrepareFirstLevel();
 
-		auto inferringLLMModelPath = Settings::Get()->GetString("llm", "InferringLLMModelPath");
-		auto embeddingModelPath = Settings::Get()->GetString("llm", "EmbeddingModelPath");
+		//const auto streamingLLM = std::make_shared<StreamingLLM>();
+		//streamingLLM->Initialize();
+		//LevelManager::Get()->AddGameObjectToScene(streamingLLM);
 
-		LLM llm;
-		EmbeddingLLM embeddingModel;
+		//auto inferringLLMModelPath = Settings::Get()->GetString("llm", "InferringLLMModelPath");
+		//auto embeddingModelPath = Settings::Get()->GetString("llm", "EmbeddingModelPath");
 
-		llm.Initialize(inferringLLMModelPath);
-		embeddingModel.Initialize(embeddingModelPath);
+		//LLM llm;
+		//EmbeddingLLM embeddingModel;
+
+		//llm.Initialize(inferringLLMModelPath);
+		//embeddingModel.Initialize(embeddingModelPath);
 
 		// Make 1 prediction
-		llm.Infer("What is the largest city in France?", 10);
+		//llm.Infer("What is the largest city in France?", 10);
 
 		// Get the embedding for the prompt
-		embeddingModel.PrintEmbeddingVectors(embeddingModel.GetEmbedding(), 1);
+		//embeddingModel.PrintEmbeddingVectors(embeddingModel.GetEmbedding(), 1);
 
 		// Start the game loop.
 		// This will pump update/draw events onto the event system, which level objects subscribe to
