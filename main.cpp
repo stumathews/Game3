@@ -26,7 +26,7 @@
 #include <mazer/EnemyMovedEvent.h>
 
 #include "EmbeddingLLM.h"
-#include "LLM.h"
+#include "SimpleLLM.h"
 #include "StreamingLLM.h"
 
 #ifdef _WIN32

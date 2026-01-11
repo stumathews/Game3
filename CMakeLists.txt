@@ -70,7 +70,7 @@ set(sourceFiles
         LevelManager.cpp
         MoveProbabilityMatrix.cpp
         ExploringNpc.cpp
-        LLM.cpp
+        SimpleLLM.cpp
         common.cpp
         log.cpp
         EmbeddingLLM.cpp

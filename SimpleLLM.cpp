@@ -1,10 +1,10 @@
-#include "LLM.h"
+#include "SimpleLLM.h"
 
 #include "common.h"
 #include <ctime>
 #include <algorithm>
 
-void LLM::Initialize(const std::string &model_path, const int ngl)
+void SimpleLLM::Initialize(const std::string &model_path, const int ngl)
 {
     // load dynamic backends
     ggml_backend_load_all();
@@ -14,7 +14,7 @@ void LLM::Initialize(const std::string &model_path, const int ngl)
     vocab = llama_model_get_vocab(model);
 }
 
-std::string LLM::Infer(const std::string &userPrompt, const int n_predict)
+std::string SimpleLLM::Infer(const std::string &userPrompt, const int n_predict)
 {
     InitializeContext(userPrompt, n_predict);
 
@@ -117,7 +117,7 @@ std::string LLM::Infer(const std::string &userPrompt, const int n_predict)
     return response.str();
 }
 
-void LLM::InitializeModel(const std::string &modelPath, const int ngl)
+void SimpleLLM::InitializeModel(const std::string &modelPath, const int ngl)
 {
     auto modelParameters = llama_model_default_params();
 
@@ -131,7 +131,7 @@ void LLM::InitializeModel(const std::string &modelPath, const int ngl)
     }
 }
 
-void LLM::InitializeContext(const std::string &userPrompt, const int n_predict)
+void SimpleLLM::InitializeContext(const std::string &userPrompt, const int n_predict)
 {
 
     prompt_tokens.clear();

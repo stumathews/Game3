@@ -6,7 +6,7 @@
 
 
 
-class LLM
+class SimpleLLM
 {
 public:
 

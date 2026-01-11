@@ -9,7 +9,7 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 #include "EmbeddingLLM.h"
-#include "LLM.h"
+#include "SimpleLLM.h"
 #include "StreamingLLM.h"
 #include <file/SettingsManager.h>
 #include <testlib/Messages.h>
@@ -25,7 +25,7 @@ public:
 
     void SetUp() override
     {
-        gamelib::SettingsManager::Get()->ReadSettingsFile("data//settings.xml");
+        gamelib::SettingsManager::Get()->ReadSettingsFile("//home//stuart//repos//Game3//testdata//settings.xml");
     }
 
     void TearDown() override
@@ -89,7 +89,7 @@ TEST_F(LlmTests, TestInferringModel)
 {
     const auto inferringLLMModelPath = gamelib::SettingsManager::Get()->GetString("llm", "InferringLLMModelPath");
 
-    LLM llm;
+    SimpleLLM llm;
 
     StreamingLLM::RunWithoutStdErrOutput([&]()
     {

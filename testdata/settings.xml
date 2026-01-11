@@ -27,8 +27,8 @@
 	</global>
 
 	<llm>
-		<setting name="InferringLLMModelPath" type="string">..//data//TinyLlama-1.1B-Chat-v0.6.Q4_0.gguf</setting>
-		<setting name="EmbeddingModelPath" type="string">..//data//bge-small-en-v1.5-q4_k_m.gguf</setting>
+		<setting name="InferringLLMModelPath" type="string">//home//stuart//repos//Game3//models//TinyLlama-1.1B-Chat-v0.6.Q4_0.gguf</setting>
+		<setting name="EmbeddingModelPath" type="string">//home//stuart//repos//Game3//models//bge-small-en-v1.5-q4_k_m.gguf</setting>
 	</llm>
 
 	<gamecommands>
