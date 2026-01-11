@@ -64,23 +64,26 @@ endmacro()
 find_package(mazer REQUIRED)
 find_package(llama CONFIG REQUIRED)
 
-add_executable(game3
-main.cpp 
-GameCommands.cpp 
-InputManager.cpp 
-LevelManager.cpp 
-MoveProbabilityMatrix.cpp 
-ExploringNpc.cpp 
-LLM.cpp
-common.cpp
-log.cpp
-EmbeddingLLM.cpp
+set(sourceFiles
+        GameCommands.cpp
+        InputManager.cpp
+        LevelManager.cpp
+        MoveProbabilityMatrix.cpp
+        ExploringNpc.cpp
+        LLM.cpp
+        common.cpp
+        log.cpp
+        EmbeddingLLM.cpp
         DecideNextDirection.cpp
         IsInCenterOfRoom.cpp
         MoveInCurrentDirection.cpp
         NotIncenterOfRoom.cpp
         StreamingLLM.cpp
         StreamingLLM.h
+)
+add_executable(game3
+main.cpp 
+${sourceFiles}
 )
 
 target_link_libraries(game3 
@@ -122,25 +125,32 @@ file(GLOB_RECURSE TEST_SOURCES
 )
 
 if(TEST_SOURCES)
-    add_executable(AllTests ${TEST_SOURCES})
+    add_executable(AllTests ${TEST_SOURCES}
+            "${CMAKE_CURRENT_SOURCE_DIR}/common.cpp"
+            ${sourceFiles})
+    target_include_directories(AllTests PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} )
 
     target_link_libraries(AllTests
         PRIVATE
             cppgamelib::cppgamelib
             SDL2::SDL2main
-	    ${SDL2_TTF_TARGET}
-	    ${SDL2_IMAGE_TARGET}
-	    ${SDL2_MIXER_TARGET}
+            ${SDL2_TTF_TARGET}
+            ${SDL2_IMAGE_TARGET}
+            ${SDL2_MIXER_TARGET}
             unofficial-sodium::sodium
-            GTest::GTest
+            GTest::gmock_main
             mazer::mazer
             llama
-	    ${LUA_LIBRARIES}
-	    tinyxml2::tinyxml2
+	        ${LUA_LIBRARIES}
+	        tinyxml2::tinyxml2
     )
 
     if(WIN32)
-        target_link_libraries(AllTests PRIVATE winmm wsock32 ws2_32)
+        target_link_libraries(AllTests
+                PRIVATE
+                winmm
+                wsock32
+                ws2_32)
     endif()
 else()
     message(WARNING "No test sources found. Skipping AllTests executable.")

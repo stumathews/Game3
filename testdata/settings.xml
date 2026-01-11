@@ -7,24 +7,29 @@
 		<setting name="square_width" type="int">150</setting>
 		<setting name="sprite_width" type="int">50</setting>
 		<setting name="max_loops" type="int">4</setting>
-		<setting name="screen_width" type="int">800</setting>
-		<setting name="screen_height" type="int">600</setting>
+		<setting name="screen_width" type="int">1024</setting>
+		<setting name="screen_height" type="int">768</setting>
 		<setting name="frames_per_row" type="int">3</setting>
 		<setting name="frames_per_column" type="int">3</setting>
 		<setting name="verbose" type="bool">false</setting>
 		<setting name="use_3d_render_manager" type="bool">false</setting>
-		<setting name="print_debugging_text" type="bool">false</setting>
-		<setting name="print_debugging_text_neighbours_only" type="bool">true</setting>
+		<setting name="print_debugging_text" type="bool">fase</setting>
+		<setting name="print_debugging_text_neighbours_only" type="bool">false</setting>
 		<setting name="numPickups" type="int">20</setting>
 		<setting name="isNetworkGame" type="bool">true</setting>
 		<setting name="createAutoLevel" type="bool">false</setting>
-		<setting name="level1FileName" type="string">data\\Level5.xml</setting>
-		<setting name="level2FileName" type="string">data\\Level2.xml</setting>
-		<setting name="level3FileName" type="string">data\\Level3.xml</setting>
-		<setting name="level4FileName" type="string">data\\Level4.xml</setting>
-		<setting name="level5FileName" type="string">data\\Level5.xml</setting>
+		<setting name="level1FileName" type="string">data//Level5.xml</setting>
+		<setting name="level2FileName" type="string">data//Level2.xml</setting>
+		<setting name="level3FileName" type="string">data//Level3.xml</setting>
+		<setting name="level4FileName" type="string">data//Level4.xml</setting>
+		<setting name="level5FileName" type="string">data//Level5.xml</setting>
 		<setting name="disableCharacters" type="bool">false</setting>
 	</global>
+
+	<llm>
+		<setting name="InferringLLMModelPath" type="string">..//data//TinyLlama-1.1B-Chat-v0.6.Q4_0.gguf</setting>
+		<setting name="EmbeddingModelPath" type="string">..//data//bge-small-en-v1.5-q4_k_m.gguf</setting>
+	</llm>
 
 	<gamecommands>
 		<setting name="logCommands" type="bool">false</setting>
@@ -36,7 +41,7 @@
 		<setting name="gameServerPort" type="string">9090</setting>
 		<setting name="maxPlayers" type="int">4</setting>
 		<setting name="nickname" type="string">Surface4</setting>
-		<!-- If its not TCP, we're using 'connected' udp -->
+		<!-- If it's not TCP, we're using 'connected' udp -->
 		<setting name="isTcp" type="bool">false</setting>
 		<setting name="useReliableUdp" type="bool">true</setting>
 		<setting name="useEncryption" type="bool">true</setting>
@@ -44,6 +49,12 @@
 		<!-- 1=Json, 2=Xml, 3=BitPacked -->
 		<setting name="sendClientEventsToServer" type="bool">false</setting>
 	</networking>
+
+	<WanderingNPC>
+		<setting name="drawNpcCross" type="bool">false</setting>
+		<setting name="drawRoomCross" type="bool">false</setting>
+		<setting name="drawNpcHotspot" type="bool">false</setting>
+	</WanderingNPC>
 
 	<gameStatePusher>
 		<!-- 1 update every 20 ms = 50 times a second (1000 milliseconds) -->
@@ -111,7 +122,7 @@
 	</player>
 
 	<sprite>
-		<setting name="debug" type="bool">false</setting>
+		<setting name="debug" type="bool">true</setting>
 	</sprite>
 
 	<!-- Room fill settings-->
@@ -148,7 +159,7 @@
 		<setting name="speed" type="int" description="move speed">2</setting>
 		<setting name="moveRateMs" type="int" description="Move every n ms">10</setting>
 		<setting name="animate" type="bool" description="animate character by changing key frames">true</setting>
-		<setting name="drawState" type="bool" description="draw enemy state">true</setting>
+		<setting name="drawState" type="bool" description="draw enemy state">false</setting>
 		<setting name="useBehaviorTree" type="bool" description="use Behavior tree or use Finite state machine">false</setting>
 	</enemy>
 

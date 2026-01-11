@@ -3,9 +3,6 @@
 #include <vector>
 #include "llama.h"
 #include <iostream>
-#include "common.h"
-#include <ctime>
-#include <algorithm>
 
 
 
@@ -23,9 +20,8 @@ public:
 	 * @param userPrompt prompt to generate text from
 	 * @param n_predict number of tokens to predict
 	 */
-	void Infer(const std::string &userPrompt, int n_predict);
+	std::string Infer(const std::string &userPrompt, int n_predict);
 
-	~LLM();
 
 private:
 	llama_sampler* smpl {};

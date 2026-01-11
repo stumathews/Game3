@@ -107,7 +107,7 @@ namespace
 		// Initialize game structure
 		const auto isGameStructureInitialized = gameStructure.Initialize(
 			screenWidth, screenHeight, windowTitle, resourcesFilePath,
-			sceneFolderPath);
+			sceneFolderPath, true);
 
 		// Initialize level manager
 		const auto isLevelManagerInitialized = LevelManager::Get()->Initialize();
@@ -217,25 +217,6 @@ int main(int, char* [])
 
 		// Load level and create/add game objects
 		PrepareFirstLevel();
-
-		//const auto streamingLLM = std::make_shared<StreamingLLM>();
-		//streamingLLM->Initialize();
-		//LevelManager::Get()->AddGameObjectToScene(streamingLLM);
-
-		//auto inferringLLMModelPath = Settings::Get()->GetString("llm", "InferringLLMModelPath");
-		//auto embeddingModelPath = Settings::Get()->GetString("llm", "EmbeddingModelPath");
-
-		//LLM llm;
-		//EmbeddingLLM embeddingModel;
-
-		//llm.Initialize(inferringLLMModelPath);
-		//embeddingModel.Initialize(embeddingModelPath);
-
-		// Make 1 prediction
-		//llm.Infer("What is the largest city in France?", 10);
-
-		// Get the embedding for the prompt
-		//embeddingModel.PrintEmbeddingVectors(embeddingModel.GetEmbedding(), 1);
 
 		// Start the game loop.
 		// This will pump update/draw events onto the event system, which level objects subscribe to

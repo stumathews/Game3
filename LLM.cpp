@@ -1,5 +1,9 @@
 #include "LLM.h"
 
+#include "common.h"
+#include <ctime>
+#include <algorithm>
+
 void LLM::Initialize(const std::string &model_path, const int ngl)
 {
     // load dynamic backends
@@ -10,7 +14,7 @@ void LLM::Initialize(const std::string &model_path, const int ngl)
     vocab = llama_model_get_vocab(model);
 }
 
-void LLM::Infer(const std::string &userPrompt, const int n_predict)
+std::string LLM::Infer(const std::string &userPrompt, const int n_predict)
 {
     InitializeContext(userPrompt, n_predict);
 
@@ -63,6 +67,8 @@ void LLM::Infer(const std::string &userPrompt, const int n_predict)
     int n_decode = 0;
     llama_token new_token_id;
 
+    std::stringstream response;
+
     for (int n_pos = 0; n_pos + batch.n_tokens < numTokensInPrompt + n_predict; )
     {
         // Evaluate the current batch with the transformer model
@@ -89,6 +95,7 @@ void LLM::Infer(const std::string &userPrompt, const int n_predict)
             }
             std::string s(buf, n);
             printf("%s", s.c_str());
+            response << s;
             fflush(stdout);
 
             // prepare the next batch with the sampled token
@@ -106,6 +113,8 @@ void LLM::Infer(const std::string &userPrompt, const int n_predict)
             __func__, n_decode, (t_main_end - t_main_start) / 1000000.0f, n_decode / ((t_main_end - t_main_start) / 1000000.0f));
 
     fprintf(stderr, "\n");
+
+    return response.str();
 }
 
 void LLM::InitializeModel(const std::string &modelPath, const int ngl)

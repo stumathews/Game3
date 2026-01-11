@@ -8,7 +8,6 @@
 #include <functional>
 
 #include "llama.h"
-#include <iostream>
 #include <file/SettingsManager.h>
 #include <objects/GameObject.h>
 
@@ -18,16 +17,12 @@
 class StreamingLLM : public gamelib::GameObject
 {
 public:
-    StreamingLLM()
-    {
-        settingsManager = gamelib::SettingsManager::Get();
-    }
-    int32_t GetNumTokensInString(const std::string &userPrompt) const;
+    explicit StreamingLLM(std::string eos = ".");
 
-    void InitializeContext(const std::string &userPrompt, uint32_t n_predict);
+    void Initialize(const std::string &prompt, uint32_t n_predict);
 
-    void Initialize();
     gamelib::GameObjectType GetGameObjectType() override ;
+
 
     void Update(unsigned long deltaMs) override;
 
@@ -40,16 +35,22 @@ public:
     void LoadSettings() override;
 
     ~StreamingLLM() override;
-private:
     static void RunWithoutStdErrOutput(const std::function<void()> &func);
+private:
+    llama_batch PromptToBatch();
+    int32_t GetNumTokensInString(const std::string &userPrompt) const;
+    void InitializeContext(const std::string &userPrompt, uint32_t n_predict);
+
     gamelib::SettingsManager* settingsManager = nullptr;
     std::string inferringLLMModelPath;
     std::string embeddingModelPath;
-    struct llama_model * model {};
-    struct llama_context * ctx {};
-    const struct llama_vocab * vocab {};
+    llama_model * model {};
+    llama_context * ctx {};
+    const llama_vocab * vocab {};
     std::vector<llama_token> prompt_tokens;
     std::vector<std::string> promptHistory {};
+    llama_context_params contextParameters {};
+    std::string answerEOS;
 };
 
 #endif //GAME3_STREAMINGLLM_H
