@@ -107,7 +107,7 @@ namespace
 		// Initialize game structure
 		const auto isGameStructureInitialized = gameStructure.Initialize(
 			screenWidth, screenHeight, windowTitle, resourcesFilePath,
-			sceneFolderPath, true);
+			sceneFolderPath, false);
 
 		// Initialize level manager
 		const auto isLevelManagerInitialized = LevelManager::Get()->Initialize();
