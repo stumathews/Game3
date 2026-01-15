@@ -13,7 +13,6 @@ class ExploringNpc;
 class IsInCenterOfRoom : public gamelib::Behavior
 {
 public:
-public:
     explicit IsInCenterOfRoom(std::shared_ptr<ExploringNpc> npc) : npc(std::move(npc)) {  }
 
     gamelib::Status Update(unsigned long deltaMs) override;

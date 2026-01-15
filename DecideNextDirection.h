@@ -6,6 +6,7 @@
 #define GAME3_DECIDENEXTDIRECTION_H
 #include <memory>
 #include <ai/Behavior.h>
+#include <time/PeriodicTimer.h>
 
 
 class ExploringNpc;
@@ -15,7 +16,6 @@ class DecideNextDirection : public gamelib::Behavior
 public:
     explicit DecideNextDirection(std::shared_ptr<ExploringNpc> npc) : npc(std::move(npc))
     {
-
     }
 
 

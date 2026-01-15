@@ -6,6 +6,7 @@
 #include <GameObjectMoveStrategy.h>
 #include <RoomInfo.h>
 #include "DecideNextDirection.h"
+#include "HaveDecided.h"
 #include "IsInCenterOfRoom.h"
 #include "MoveInCurrentDirection.h"
 #include "NotInCenterOfRoom.h"
@@ -56,14 +57,23 @@ public:
 	void DrawMyCross(SDL_Renderer* renderer) const;
 	void Draw(SDL_Renderer* renderer) override;
 
-	gamelib::Direction GetCurrentFacingDirection() const { return this->currentFacingDirection; }
-	std::shared_ptr<mazer::Room> GetCurrentRoom() const { return this->currentRoom; }
-	std::shared_ptr<mazer::RoomInfo> GetCurrentRoomInfo() const { return this->currentRoomInfo; }
-	std::shared_ptr<MoveProbabilityMatrix> GetProbabilityMatrix() const { return moveProbabilityMatrix; }
-	std::shared_ptr<gamelib::IGameObjectMoveStrategy> GetGameObjectMoveStrategy(){ return gameObjectMoveStrategy; }
-	std::shared_ptr<gamelib::Hotspot> GetHotspot() const { return this->TheHotspot; }
-	bool HasReachedCenterOfRoom() const { return hasReachedCenter; }
+	gamelib::Direction GetCurrentFacingDirection() const;
 
+	std::shared_ptr<mazer::Room> GetCurrentRoom() const;
+
+	std::shared_ptr<mazer::RoomInfo> GetCurrentRoomInfo() const;
+
+	std::shared_ptr<MoveProbabilityMatrix> GetProbabilityMatrix() const;
+
+	std::shared_ptr<gamelib::IGameObjectMoveStrategy> GetGameObjectMoveStrategy();
+
+	std::shared_ptr<gamelib::Hotspot> GetHotspot() const;
+
+	bool HasReachedCenterOfRoom() const;
+
+	void SetHasReachedCenterOfRoom(bool yesNo);
+	bool hasDecided = false;
+	gamelib::PeriodicTimer cooldownTimer;
 private:
 	std::shared_ptr<MoveProbabilityMatrix> moveProbabilityMatrix;
 	std::shared_ptr<mazer::Room> currentRoom;
@@ -80,6 +90,9 @@ private:
 	NotIncenterOfRoom* notInCenterOfRoom;
 	IsInCenterOfRoom* isInCenterOfRoom;
 	gamelib::ScriptedBehavior* scriptedBehavior;
+	HaveDecided* haveDecided;
+
+
 
 };
 

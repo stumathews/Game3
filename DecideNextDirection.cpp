@@ -5,14 +5,20 @@
 
 #include "ExploringNpc.h"
 
-gamelib::Status DecideNextDirection::Update(unsigned long deltaMs)
+gamelib::Status DecideNextDirection::Update(const unsigned long deltaMs)
 {
-    std::cout << "Deciding.\n";
-    // Decide next direction to move in
-    const auto validMoveDirection = npc->GetProbabilityMatrix()->SelectAction(npc->GetCurrentRoom());
+    npc->cooldownTimer.DoIfReady([&]
+    {
+        std::cout << "Deciding.\n";
+        // Decide next direction to move in
+        const auto validMoveDirection = npc->GetProbabilityMatrix()->SelectAction(npc->GetCurrentRoom());
 
-    // Set facing direction to the sampled direction
-    npc->SetDirection(validMoveDirection);
+        // Set facing direction to the sampled direction
+        npc->SetDirection(validMoveDirection);
 
-    return gamelib::Status::Success;
+        npc->hasDecided = true;
+    });
+
+
+    return gamelib::Status::Failure;
 }

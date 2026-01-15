@@ -21,7 +21,7 @@ class MoveInCurrentDirection : public gamelib::Behavior
 public:
 	explicit MoveInCurrentDirection(std::shared_ptr<ExploringNpc> exploringNpc) : npc(std::move(exploringNpc)) {  }
 
-	static SDL_Rect line_to_rect(const gamelib::Line& line, const bool isHorizontal);
+	static SDL_Rect line_to_rect(const gamelib::Line& line, bool isHorizontal);
 
 	gamelib::Status Update(unsigned long deltaMs) override;
 private:

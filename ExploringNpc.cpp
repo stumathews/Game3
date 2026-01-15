@@ -9,6 +9,7 @@
 #include <ai/BehaviorTree.h>
 #include <ai/BehaviorTreeBuilder.h>
 #include "MoveInCurrentDirection.h"
+#include "HaveDecided.h"
 
 void ExploringNpc::Initialize()
 {
@@ -29,12 +30,29 @@ void ExploringNpc::Initialize()
 	notInCenterOfRoom = new NotIncenterOfRoom(shared_from_this());
 	isInCenterOfRoom = new IsInCenterOfRoom(shared_from_this());
 	scriptedBehavior = new gamelib::ScriptedBehavior("TestScript", 20);
+	haveDecided = new HaveDecided(shared_from_this());
+
+	cooldownTimer.SetFrequency(1000);
 
 	// Set up the Behaviour tree with our behaviours
 	behaviorTree = behaviorTree = BehaviorTreeBuilder()
 		.ActiveSelector()
-			.Sequence("MoveIntoCenter").Condition(notInCenterOfRoom).Action(moveInCurrentDirection).Condition(isInCenterOfRoom).Action(decide).Finish()
-	        .Sequence("MoveOutOfCenter").Condition(isInCenterOfRoom).Action(moveInCurrentDirection).Finish()
+
+			.Sequence("MoveIntoCenter")
+				.Not(isInCenterOfRoom)
+				.Action(moveInCurrentDirection)
+			.Finish()
+
+			.Sequence("Decide which way to move")
+				.Condition(isInCenterOfRoom)
+				.Action(decide)
+			.Finish()
+
+	        .Sequence("MoveOutOfCenter")
+				.Condition(isInCenterOfRoom)
+				.Action(moveInCurrentDirection)
+			.Finish()
+
 			.Action(scriptedBehavior)
 		.End();
 }
@@ -42,6 +60,7 @@ void ExploringNpc::Initialize()
 void ExploringNpc::Update(const unsigned long deltaMs)
 {
 	Npc::Update(deltaMs);
+	cooldownTimer.Update(deltaMs);
 	behaviorTree->Update(deltaMs);
 }
 
@@ -95,17 +114,60 @@ void ExploringNpc::Draw(SDL_Renderer* renderer)
 {
 	Npc::Draw(renderer);
 
-	if (drawNpcHotspot) {
+	if (drawNpcHotspot)
+	{
 		TheHotspot->Draw(renderer);
 	}
 
-	if (drawRoomCross) {
+	if (drawRoomCross)
+	{
 		DrawRoomCross(renderer);
 	}
 
-	if (drawNpcCross) {
+	if (drawNpcCross)
+	{
 		DrawMyCross(renderer);
 	}
+}
+
+gamelib::Direction ExploringNpc::GetCurrentFacingDirection() const
+{
+	return this->currentFacingDirection;
+}
+
+std::shared_ptr<mazer::Room> ExploringNpc::GetCurrentRoom() const
+{
+	return this->currentRoomInfo->GetCurrentRoom();
+}
+
+std::shared_ptr<mazer::RoomInfo> ExploringNpc::GetCurrentRoomInfo() const
+{
+	return this->currentRoomInfo;
+}
+
+std::shared_ptr<MoveProbabilityMatrix> ExploringNpc::GetProbabilityMatrix() const
+{
+	return moveProbabilityMatrix;
+}
+
+std::shared_ptr<gamelib::IGameObjectMoveStrategy> ExploringNpc::GetGameObjectMoveStrategy()
+{
+	return gameObjectMoveStrategy;
+}
+
+std::shared_ptr<gamelib::Hotspot> ExploringNpc::GetHotspot() const
+{
+	return this->TheHotspot;
+}
+
+bool ExploringNpc::HasReachedCenterOfRoom() const
+{
+	return hasReachedCenter;
+}
+
+void ExploringNpc::SetHasReachedCenterOfRoom(const bool yesNo)
+{
+	hasReachedCenter = yesNo;
 }
 
 ExploringNpc::~ExploringNpc()

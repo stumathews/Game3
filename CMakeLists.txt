@@ -79,7 +79,7 @@ set(sourceFiles
         MoveInCurrentDirection.cpp
         NotIncenterOfRoom.cpp
         StreamingLLM.cpp
-        StreamingLLM.h
+        HaveDecided.cpp
 )
 add_executable(game3
 main.cpp 
