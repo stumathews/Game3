@@ -80,6 +80,7 @@ set(sourceFiles
         NotIncenterOfRoom.cpp
         StreamingLLM.cpp
         HaveDecided.cpp
+        Console.cpp
 )
 add_executable(game3
 main.cpp 

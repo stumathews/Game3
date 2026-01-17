@@ -122,11 +122,11 @@ gamelib::Status MoveInCurrentDirection::Update(unsigned long deltaMs)
 
 	if(hasReachedCenter)
 	{
-		std::cout << "Has reached center of room " << currentRoom->GetRoomNumber() << "\n";
+		//std::cout << "Has reached center of room " << currentRoom->GetRoomNumber() << "\n";
 		return gamelib::Status::Failure;
 	}
 
-	std::cout << "current room is " << currentRoom->GetRoomNumber() << "\n";
+	//std::cout << "current room is " << currentRoom->GetRoomNumber() << "\n";
 
 	return gamelib::Status::Success;
 }

@@ -54,11 +54,15 @@ namespace
 		##   ##  ###  ##  # ####   ### ###  #### ##           ######   ### ##
 	*/
 
-	static void InitializeGameSubSystems(GameStructure& gameStructure);
-	static void PrepareFirstLevel();
-	static shared_ptr<FixedStepGameLoop> CreateGameLoopStrategy();
-	static void GetInput(unsigned long deltaMs);
-	static void SetupEventTap();
+	void InitializeGameSubSystems(GameStructure& gameStructure);
+
+	void PrepareFirstLevel();
+
+	shared_ptr<FixedStepGameLoop> CreateGameLoopStrategy();
+
+	void GetInput(unsigned long deltaMs);
+
+	void SetupEventTap();
 
 	void PrepareFirstLevel()
 	{
@@ -126,22 +130,22 @@ namespace
 		}
 	}
 
-	static void Update(const unsigned long deltaMs)
+	void Update(const unsigned long deltaMs)
 	{
 		// Process all pending events
 		EventManager::Get()->ProcessAllEvents(deltaMs);
 
 		// Send update event - will dispatch events to subscribers who have subscribed to game object 'update' event 
-		EventManager::Get()->DispatchEventToSubscriber(EventFactory::Get()->CreateUpdateAllGameObjectsEvent(), deltaMs);
+		EventManager::Get()->DispatchEventToSubscriber(EventFactory::CreateUpdateAllGameObjectsEvent(), deltaMs);
 
 		// Send update processes event - will dispatch event to processes
-		EventManager::Get()->DispatchEventToSubscriber(EventFactory::Get()->CreateUpdateProcessesEvent(), deltaMs);
+		EventManager::Get()->DispatchEventToSubscriber(EventFactory::CreateUpdateProcessesEvent(), deltaMs);
 	}
 
-	static void Draw()
+	void Draw()
 	{
 		// Time-sensitive, skip queue. Draws the current scene
-		EventManager::Get()->DispatchEventToSubscriber(EventFactory::Get()->CreateGenericEvent(DrawCurrentSceneEventId, "Game"), 0UL);
+		EventManager::Get()->DispatchEventToSubscriber(EventFactory::CreateGenericEvent(DrawCurrentSceneEventId, "Game"), 0UL);
 	}
 
 	void GetInput(const unsigned long deltaMs)

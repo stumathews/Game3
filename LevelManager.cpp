@@ -54,10 +54,10 @@ bool LevelManager::Initialize()
 	const auto gameStatePusherEnabled = SettingsManager::Get()->GetBool("gameStatePusher", "enabled");
 
 	// Set game data
-	mazer::GameData::Get()->IsNetworkGame = GetBoolSetting("global", "isNetworkGame");
-	mazer::GameData::Get()->IsGameDone = false;
-	mazer::GameData::Get()->IsNetworkGame = false;
-	mazer::GameData::Get()->CanDraw = true;
+	GameData::Get()->IsNetworkGame = GetBoolSetting("global", "isNetworkGame");
+	GameData::Get()->IsGameDone = false;
+	GameData::Get()->IsNetworkGame = false;
+	GameData::Get()->CanDraw = true;
 
 	// Construct key components
 	eventManager = EventManager::Get();
@@ -67,8 +67,8 @@ bool LevelManager::Initialize()
 
 	// Subscribe to events we are interested in...
 	eventManager->SubscribeToEvent(GenerateNewLevelEventId, this);
-	eventManager->SubscribeToEvent(mazer::InvalidMoveEventId, this);
-	eventManager->SubscribeToEvent(mazer::FetchedPickupEventId, this);
+	eventManager->SubscribeToEvent(InvalidMoveEventId, this);
+	eventManager->SubscribeToEvent(FetchedPickupEventId, this);
 	eventManager->SubscribeToEvent(GameObjectTypeEventId, this);
 	eventManager->SubscribeToEvent(SceneChangedEventTypeEventId, this);
 	eventManager->SubscribeToEvent(NetworkPlayerJoinedEventId, this);
@@ -94,7 +94,7 @@ ListOfEvents LevelManager::HandleEvent(const std::shared_ptr<Event>& evt, const 
 	if(evt->Id.PrimaryId == UpdateProcessesEventId.PrimaryId) { processManager.UpdateProcesses(inDeltaMs); }
 
 	// Respond to invalid move event
-	if(evt->Id.PrimaryId == mazer::InvalidMoveEventId.PrimaryId) { gameCommands->InvalidMove();}
+	if(evt->Id.PrimaryId == InvalidMoveEventId.PrimaryId) { gameCommands->InvalidMove();}
 
 	// Respond to player joining the game
 	if(evt->Id.PrimaryId == NetworkPlayerJoinedEventId.PrimaryId) { OnNetworkPlayerJoined(evt);}
@@ -103,19 +103,19 @@ ListOfEvents LevelManager::HandleEvent(const std::shared_ptr<Event>& evt, const 
 	if(evt->Id.PrimaryId == StartNetworkLevelEventId.PrimaryId) { OnStartNetworkLevel(evt); }
 
 	// Respond to player picking up an item
-	if(evt->Id.PrimaryId == mazer::FetchedPickupEventId.PrimaryId) { OnFetchedPickup(evt); }
+	if(evt->Id.PrimaryId == FetchedPickupEventId.PrimaryId) { OnFetchedPickup(evt); }
 
 	// Respond to player colliding with a pickup
 	if (evt->Id.PrimaryId == PlayerCollidedWithPickupEventId.PrimaryId) { OnPickupCollision(evt); }
 
 	// Respond to game won event
-	if(evt->Id.PrimaryId == mazer::GameWonEventId.PrimaryId) { OnGameWon();}
+	if(evt->Id.PrimaryId == GameWonEventId.PrimaryId) { OnGameWon();}
 
 	// Respond to player colliding with an enemy
 	if(evt->Id.PrimaryId == PlayerCollidedWithEnemyEventId.PrimaryId) { OnEnemyCollision(evt);}
 
 	// Respond to player dying
-	if(evt->Id.PrimaryId == mazer::PlayerDiedEventId.PrimaryId) { OnPlayerDied(); }
+	if(evt->Id.PrimaryId == PlayerDiedEventId.PrimaryId) { OnPlayerDied(); }
 		
 	return {};
 }
@@ -378,6 +378,10 @@ void LevelManager::AddScreenWidgets(const std::vector<std::shared_ptr<mazer::Roo
 	
 	AddGameObjectToScene(playerHealth);
 	AddGameObjectToScene(playerPoints);
+
+	console = std::make_shared<Console>();
+	console->Initialize();
+	AddGameObjectToScene(console);
 }
 
 void LevelManager::CreateExploringNpc(const std::vector<std::shared_ptr<mazer::Room>>& rooms)
@@ -402,7 +406,7 @@ void LevelManager::CreateLevel(const string& levelFilePath)
 	RemoveAllGameObjects();
 
 	// Load the level definition file
-	level = std::make_shared<mazer::Level>(levelFilePath);
+	level = std::make_shared<Level>(levelFilePath);
 
 	LogMessage(std::string("Loading level ") + levelFilePath + "...", true);
 
@@ -476,7 +480,7 @@ std::shared_ptr<DrawableText> LevelManager::CreateDrawablePlayerPoints() const
 }
 
 std::shared_ptr<StaticSprite> LevelManager::CreateHud(const std::vector<std::shared_ptr<mazer::Room>>& rooms,
-                                                      const std::shared_ptr<mazer::Player>& inPlayer)
+                                                      const std::shared_ptr<Player>& inPlayer)
 {
 	// We'll be placing the hud in the top left corner of the screen
 	constexpr auto firstRow = 1;
@@ -485,7 +489,7 @@ std::shared_ptr<StaticSprite> LevelManager::CreateHud(const std::vector<std::sha
 	const auto hudAsset = GetAsset("hudspritesheet");
 
 	// Build it
-	hudItem = GameObjectFactory::Get().BuildStaticSprite(hudAsset, hudPosition);
+	hudItem = GameObjectFactory::BuildStaticSprite(hudAsset, hudPosition);
 
 	// Initialise it
 	InitializeHudItem(hudItem);
@@ -502,7 +506,7 @@ void LevelManager::InitializeHudItem(const std::shared_ptr<StaticSprite>& hudIte
 void LevelManager::AddGameObjectToScene(const std::shared_ptr<GameObject>& gameObject)
 {
 	// Schedule for the game object to be added to the scene
-	eventManager->RaiseEvent(To<Event>(eventFactory->CreateAddToSceneEvent(gameObject)), this);
+	eventManager->RaiseEvent(To<Event>(EventFactory::CreateAddToSceneEvent(gameObject)), this);
 }
 
 void LevelManager::CreateAutoLevel()
@@ -522,10 +526,10 @@ void LevelManager::CreateAutoLevel()
 	AddScreenWidgets(level->Rooms);
 }
 
-void LevelManager::InitializePlayer(const std::shared_ptr<mazer::Player>& inPlayer, const std::shared_ptr<SpriteAsset>&spriteAsset)
+void LevelManager::InitializePlayer(const std::shared_ptr<Player>& inPlayer, const std::shared_ptr<SpriteAsset>&spriteAsset)
 {
 	inPlayer->SetMoveStrategy(std::make_shared<GameObjectMoveStrategy>(inPlayer, inPlayer->CurrentRoom));
-	inPlayer->SetTag(gamelib::PlayerTag);
+	inPlayer->SetTag(PlayerTag);
 	inPlayer->LoadSettings();
 	inPlayer->SetSprite(AnimatedSprite::Create(inPlayer->Position, spriteAsset));
 
@@ -533,7 +537,7 @@ void LevelManager::InitializePlayer(const std::shared_ptr<mazer::Player>& inPlay
 	GameData::Get()->player = inPlayer;
 }
 
-void LevelManager::InitializeAutoPickups(const std::vector<std::shared_ptr<mazer::Pickup>>& inPickups)
+void LevelManager::InitializeAutoPickups(const std::vector<std::shared_ptr<Pickup>>& inPickups)
 {
 	for (const auto& pickup : inPickups)
 	{		

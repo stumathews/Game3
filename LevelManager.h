@@ -85,6 +85,7 @@ private:
     std::shared_ptr<gamelib::DrawableFrameRate> drawableFrameRate;
     std::shared_ptr<gamelib::DrawableText> playerHealth;
     std::shared_ptr<gamelib::DrawableText> playerPoints;
+    std::shared_ptr<Console> console;
     std::shared_ptr<gamelib::StaticSprite> hudItem;
     std::shared_ptr<InputManager> inputManager;
     std::shared_ptr<mazer::Level> level = nullptr;
