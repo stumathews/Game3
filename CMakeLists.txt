@@ -65,27 +65,30 @@ find_package(mazer REQUIRED)
 find_package(llama CONFIG REQUIRED)
 
 set(sourceFiles
-        GameCommands.cpp
-        InputManager.cpp
-        LevelManager.cpp
-        MoveProbabilityMatrix.cpp
-        ExploringNpc.cpp
-        SimpleLLM.cpp
-        common.cpp
-        log.cpp
-        EmbeddingLLM.cpp
-        DecideNextDirection.cpp
-        IsInCenterOfRoom.cpp
-        MoveInCurrentDirection.cpp
-        NotIncenterOfRoom.cpp
-        StreamingLLM.cpp
-        HaveDecided.cpp
-        Console.cpp
+        src/GameCommands.cpp
+        src/InputManager.cpp
+        src/LevelManager.cpp
+        src/MoveProbabilityMatrix.cpp
+        src/characters/explorer/ExploringNpc.cpp
+        src/llm/SimpleLLM.cpp
+        src/llm/common.cpp
+        src/llm/log.cpp
+        src/llm/EmbeddingLLM.cpp
+        src/characters/explorer/DecideNextDirection.cpp
+        src/characters/explorer/IsInCenterOfRoom.cpp
+        src/characters/explorer/MoveInCurrentDirection.cpp
+        src/characters/explorer/NotIncenterOfRoom.cpp
+        src/llm/StreamingLLM.cpp
+        src/characters/explorer/HaveDecided.cpp
+        src/console/Console.cpp
 )
 add_executable(game3
-main.cpp 
-${sourceFiles}
+        src/main.cpp
+        ${sourceFiles}
 )
+
+target_sources(game3 PRIVATE src)
+target_include_directories(game3 PRIVATE src)
 
 target_link_libraries(game3 
 PRIVATE 
@@ -127,9 +130,9 @@ file(GLOB_RECURSE TEST_SOURCES
 
 if(TEST_SOURCES)
     add_executable(AllTests ${TEST_SOURCES}
-            "${CMAKE_CURRENT_SOURCE_DIR}/common.cpp"
+            "src/llm/common.cpp"
             ${sourceFiles})
-    target_include_directories(AllTests PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} )
+    target_include_directories(AllTests PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src )
 
     target_link_libraries(AllTests
         PRIVATE

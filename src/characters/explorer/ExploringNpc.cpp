@@ -42,7 +42,6 @@ void ExploringNpc::Initialize()
 				.Not(isInCenterOfRoom)
 				.Action(moveInCurrentDirection)
 			.Finish()
-
 			.Sequence("Decide which way to move")
 				.Condition(isInCenterOfRoom)
 				.Action(decide)

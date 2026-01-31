@@ -6,16 +6,14 @@
 #define GAME3_LLMTESTS_H
 
 #include <events/EventManager.h>
-#include <gtest/gtest.h>
-#include <gmock/gmock.h>
-#include "EmbeddingLLM.h"
-#include "SimpleLLM.h"
-#include "StreamingLLM.h"
 #include <file/SettingsManager.h>
-#include <testlib/Messages.h>
-
-#include "LLMPredctionCompleteEvent.h"
-#include "LLMTokenPredictedReceived.h"
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
+#include "llm/EmbeddingLLM.h"
+#include "llm/LLMPredctionCompleteEvent.h"
+#include "llm/SimpleLLM.h"
+#include "llm/StreamingLLM.h"
+#include "llm/LLMTokenPredictedReceived.h"
 
 using namespace testing;
 

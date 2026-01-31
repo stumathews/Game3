@@ -32,7 +32,7 @@
 #include <cppgamelib/common/constants.h>
 #include <random>
 
-#include "ExploringNpc.h"
+#include "characters/explorer/ExploringNpc.h"
 #include "MoveProbabilityMatrix.h"
 
 using namespace gamelib;
@@ -88,34 +88,64 @@ bool LevelManager::Initialize()
 ListOfEvents LevelManager::HandleEvent(const std::shared_ptr<Event>& evt, const unsigned long inDeltaMs)
 {
 	// Response to level changing
-	if(evt->Id.PrimaryId == SceneChangedEventTypeEventId.PrimaryId) { OnLevelChanged(evt); }
+	if(evt->Id.PrimaryId == SceneChangedEventTypeEventId.PrimaryId)
+	{
+		OnLevelChanged(evt);
+	}
 
 	// Respond to event to update level processes
-	if(evt->Id.PrimaryId == UpdateProcessesEventId.PrimaryId) { processManager.UpdateProcesses(inDeltaMs); }
+	if(evt->Id.PrimaryId == UpdateProcessesEventId.PrimaryId)
+	{
+		processManager.UpdateProcesses(inDeltaMs);
+	}
 
 	// Respond to invalid move event
-	if(evt->Id.PrimaryId == InvalidMoveEventId.PrimaryId) { gameCommands->InvalidMove();}
+	if(evt->Id.PrimaryId == InvalidMoveEventId.PrimaryId)
+	{
+		gameCommands->InvalidMove();
+	}
 
 	// Respond to player joining the game
-	if(evt->Id.PrimaryId == NetworkPlayerJoinedEventId.PrimaryId) { OnNetworkPlayerJoined(evt);}
+	if(evt->Id.PrimaryId == NetworkPlayerJoinedEventId.PrimaryId)
+	{
+		OnNetworkPlayerJoined(evt);
+	}
 
 	// Respond to network game starting event
-	if(evt->Id.PrimaryId == StartNetworkLevelEventId.PrimaryId) { OnStartNetworkLevel(evt); }
+	if(evt->Id.PrimaryId == StartNetworkLevelEventId.PrimaryId)
+	{
+		OnStartNetworkLevel(evt);
+	}
 
 	// Respond to player picking up an item
-	if(evt->Id.PrimaryId == FetchedPickupEventId.PrimaryId) { OnFetchedPickup(evt); }
+	if(evt->Id.PrimaryId == FetchedPickupEventId.PrimaryId)
+	{
+		OnFetchedPickup(evt);
+	}
 
 	// Respond to player colliding with a pickup
-	if (evt->Id.PrimaryId == PlayerCollidedWithPickupEventId.PrimaryId) { OnPickupCollision(evt); }
+	if (evt->Id.PrimaryId == PlayerCollidedWithPickupEventId.PrimaryId)
+	{
+		OnPickupCollision(evt);
+	}
 
 	// Respond to game won event
-	if(evt->Id.PrimaryId == GameWonEventId.PrimaryId) { OnGameWon();}
+	if(evt->Id.PrimaryId == GameWonEventId.PrimaryId)
+	{
+		OnGameWon();
+	}
 
 	// Respond to player colliding with an enemy
-	if(evt->Id.PrimaryId == PlayerCollidedWithEnemyEventId.PrimaryId) { OnEnemyCollision(evt);}
+	if(evt->Id.PrimaryId == PlayerCollidedWithEnemyEventId.PrimaryId)
+	{
+		OnEnemyCollision(evt);
+	}
 
 	// Respond to player dying
-	if(evt->Id.PrimaryId == PlayerDiedEventId.PrimaryId) { OnPlayerDied(); }
+	if(evt->Id.PrimaryId == PlayerDiedEventId.PrimaryId)
+	{
+		OnPlayerDied();
+	}
 		
 	return {};
 }

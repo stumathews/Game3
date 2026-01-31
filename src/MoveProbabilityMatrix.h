@@ -18,7 +18,7 @@ public:
 			auto countPossibleMoves = 0;
 			const auto roomNumber = room->GetRoomNumber();
 			constexpr auto lastDirectionIndex = static_cast<int>(gamelib::Direction::Right);
-			auto countPossibleDirections = lastDirectionIndex + 1; // zero based index
+			constexpr auto countPossibleDirections = lastDirectionIndex + 1; // zero based index
 
 			// Calculate move probabilities for each direction based on wall presence
 			moveProbabilityMatrix[roomNumber][static_cast<int>(gamelib::Direction::Up)] = static_cast<double>(!room->HasTopWall()) / countPossibleDirections;  // Up	
@@ -39,7 +39,6 @@ public:
 			if (countPossibleMoves < countPossibleDirections)
 			{
 				const auto possibleMoveShares = static_cast<double>(countPossibleMoves) * 1 / countPossibleDirections;
-				const auto numImpossibleMoves = countPossibleDirections - countPossibleMoves;
 				const auto shareOfMissingMoves = ((1.0 - possibleMoveShares) / (countPossibleMoves));
 
 				// Distribute the missing probability share among possible moves
@@ -76,11 +75,11 @@ public:
 			}));
 	}
 
-	// Determines if its possible to move in the desired direction  
-	bool CanFromRoomInDirection(const std::shared_ptr<mazer::Room>& room, gamelib::Direction desiredDirction)
+	// Determines if it is possible to move in the desired direction
+	bool CanFromRoomInDirection(const std::shared_ptr<mazer::Room>& room, gamelib::Direction desiredDirection) const
 	{
-		// If move probability is > 0 then its possible to move in the desired direction, otherwise its not
-		return moveProbabilityMatrix[room->GetRoomNumber()][static_cast<int>(desiredDirction)] > 0.0;
+		// If move probability is > 0 then it is possible to move in the desired direction, otherwise it is not
+		return moveProbabilityMatrix[room->GetRoomNumber()][static_cast<int>(desiredDirection)] > 0.0;
 	}
 
 private:

@@ -5,7 +5,7 @@
 #ifndef GAME3_LLMTOKENPREDICTEDRECEIVED_H
 #define GAME3_LLMTOKENPREDICTEDRECEIVED_H
 
-#include "EventNumbers.h"
+#include "../EventNumbers.h"
 #include <events/Event.h>
 
 const static gamelib::EventId LLMPredictedTokenReceivedEventEventId(LLMPredictedTokenReceived, "UpdateAllGameObjectsEventType");

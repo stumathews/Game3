@@ -1,5 +1,5 @@
 #pragma once
-#include "Console.h"
+#include "console/Console.h"
 #include "GameCommands.h"
 #include "input/IInputManager.h"
 

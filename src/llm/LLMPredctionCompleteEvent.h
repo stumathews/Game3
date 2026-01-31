@@ -6,7 +6,7 @@
 #define GAME3_LLMPREDCTIONCOMPLETEEVENT_H
 
 
-#include "EventNumbers.h"
+#include "../EventNumbers.h"
 #include <events/Event.h>
 
 const static gamelib::EventId LLMPredictionCompleteEventEventId(LLMPredictionComplete, "LLMPredictionCompleteEvent");

@@ -3,16 +3,16 @@
 #include <iostream>
 #include <cppgamelib/exceptions/EngineException.h>
 
-#include "Console.h"
-#include "ConsoleBackspacePressedEvent.h"
-#include "ConsoleDeletePressedEvent.h"
-#include "ConsoleLeftPressedEvent.h"
-#include "ConsolePageDownPressedEvent.h"
-#include "ConsolePageUpPressedEvent.h"
-#include "ConsoleReturnPressedEvent.h"
-#include "ConsoleRightPressedEvent.h"
-#include "ConsoleTextReceivedEvent.h"
-#include "ConsoleToggledEvent.h"
+#include "console/Console.h"
+#include "console/ConsoleBackspacePressedEvent.h"
+#include "console/ConsoleDeletePressedEvent.h"
+#include "console/ConsoleLeftPressedEvent.h"
+#include "console/ConsolePageDownPressedEvent.h"
+#include "console/ConsolePageUpPressedEvent.h"
+#include "console/ConsoleReturnPressedEvent.h"
+#include "console/ConsoleRightPressedEvent.h"
+#include "console/ConsoleTextReceivedEvent.h"
+#include "console/ConsoleToggledEvent.h"
 
 bool graveWasPressed = false;
 

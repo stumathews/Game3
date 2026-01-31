@@ -1,6 +1,6 @@
 #pragma once
 #include <Enemy.h>
-#include "MoveProbabilityMatrix.h"
+#include "../../MoveProbabilityMatrix.h"
 #include <mazer/Room.h>
 #include <memory>
 #include <GameObjectMoveStrategy.h>

@@ -19,7 +19,7 @@
 #include "Level.h"
 #include <vector>
 #include "MoveProbabilityMatrix.h"
-#include "ExploringNpc.h"
+#include "characters/explorer/ExploringNpc.h"
 
 typedef std::vector<std::weak_ptr<gamelib::GameObject>> ListOfGameObjects;
 

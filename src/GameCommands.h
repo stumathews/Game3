@@ -27,6 +27,7 @@ public:
 	void MoveLeft(bool beVerbose, gamelib::ControllerMoveEvent::KeyState keyState);
 	void MoveRight(bool beVerbose, gamelib::ControllerMoveEvent::KeyState keyState);
 	void Move(gamelib::Direction direction, gamelib::ControllerMoveEvent::KeyState keyState);
+
 	void PlaySoundEffect(const std::shared_ptr<gamelib::AudioAsset>& effect) const;
 	void RaiseChangedLevel(bool beVerbose, short newLevel);
 	void ReloadSettings(bool beVerbose);
