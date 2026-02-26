@@ -271,7 +271,7 @@ void StreamingLLM::RunWithoutStdErrOutput(const std::function<void()> &func)
     // Restore stderr
     dup2(oldStdErr, fileno(stderr));
 #ifdef _WIN32
-    _close(old_stderr);
+    _close(oldStdErr);
 #else
     close(oldStdErr);
 #endif

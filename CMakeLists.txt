@@ -136,22 +136,24 @@ if(TEST_SOURCES)
 
     target_link_libraries(AllTests
         PRIVATE
-            cppgamelib::cppgamelib
-            SDL2::SDL2main
-            ${SDL2_TTF_TARGET}
-            ${SDL2_IMAGE_TARGET}
-            ${SDL2_MIXER_TARGET}
+ 	   
             unofficial-sodium::sodium
             GTest::gmock_main
             mazer::mazer
             llama
-	        ${LUA_LIBRARIES}
-	        tinyxml2::tinyxml2
+	    ${LUA_LIBRARIES}
+	    tinyxml2::tinyxml2
+            cppgamelib::cppgamelib
     )
 
     if(WIN32)
         target_link_libraries(AllTests
                 PRIVATE
+		SDL2::SDL2
+ 		SDL2::SDL2main
+            	${SDL2_TTF_TARGET}
+            	${SDL2_IMAGE_TARGET}
+            	${SDL2_MIXER_TARGET}
                 winmm
                 wsock32
                 ws2_32)
