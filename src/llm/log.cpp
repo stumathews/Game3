@@ -5,8 +5,6 @@
 #include <condition_variable>
 #include <cstdarg>
 #include <cstdio>
-#include <cstdlib>
-#include <cstring>
 #include <mutex>
 #include <sstream>
 #include <thread>

@@ -10,6 +10,12 @@
 #include "IsInCenterOfRoom.h"
 #include "MoveInCurrentDirection.h"
 #include "NotInCenterOfRoom.h"
+#include <ai/Blackboard.h>
+#include <ai/BlackboardKey.h>
+#include <ai/BlackboardKeyRegistry.h>
+#include <processes/ProcessManager.h>
+
+class PerceptionService;
 
 namespace gamelib
 {
@@ -28,13 +34,18 @@ public:
 		const std::shared_ptr<mazer::Room>& initialRoom)
 		: Npc(name, type, position, visible, sprite),
 		  moveProbabilityMatrix(moveProbabilityMatrix),
-		  currentRoom(initialRoom)
+		  currentRoom(initialRoom), behaviorTree(nullptr), moveInCurrentDirection(nullptr), decide(nullptr),
+		  notInCenterOfRoom(nullptr),
+		  isInCenterOfRoom(nullptr),
+		  scriptedBehavior(nullptr),
+		  haveDecided(nullptr)
 	{
-
 		currentRoomInfo = std::make_shared<mazer::RoomInfo>(initialRoom);
 	}
 
 	~ExploringNpc() override;
+
+	gamelib::ListOfEvents HandleEvent(const std::shared_ptr<gamelib::Event>& event, unsigned long deltaMs) override;;
 
 	void Initialize();
 
@@ -74,6 +85,10 @@ public:
 	void SetHasReachedCenterOfRoom(bool yesNo);
 	bool hasDecided = false;
 	gamelib::PeriodicTimer cooldownTimer;
+
+	std::shared_ptr<gamelib::Blackboard> blackboard;
+	BB_DECLARE_KEY(bool, BB_HasReachedCenterOfRoom);
+	BB_HasReachedCenterOfRoom Key_HasReachedCenterOfRoom {};
 private:
 	std::shared_ptr<MoveProbabilityMatrix> moveProbabilityMatrix;
 	std::shared_ptr<mazer::Room> currentRoom;
@@ -89,10 +104,16 @@ private:
 	DecideNextDirection* decide;
 	NotIncenterOfRoom* notInCenterOfRoom;
 	IsInCenterOfRoom* isInCenterOfRoom;
+
 	gamelib::ScriptedBehavior* scriptedBehavior;
 	HaveDecided* haveDecided;
 
+	//
+	std::shared_ptr<PerceptionService> perceptionService;
+	gamelib::ProcessManager processManager;
 
 
 };
+
+
 

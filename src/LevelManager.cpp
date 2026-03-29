@@ -14,7 +14,6 @@
 #include <mazer/Level.h>
 #include <mazer/PlayerCollidedWithEnemyEvent.h>
 #include <mazer/PlayerCollidedWithPickupEvent.h>
-#include <cppgamelib/events/UpdateAllGameObjectsEvent.h>
 #include <cppgamelib/events/GameObjectEvent.h>
 #include <file/Logger.h>
 #include <mazer/Player.h>
@@ -31,58 +30,62 @@
 #include <cppgamelib/character/Inventory.h>
 #include <cppgamelib/common/constants.h>
 #include <random>
-
 #include "characters/explorer/ExploringNpc.h"
 #include "MoveProbabilityMatrix.h"
+#include "console/Console.h"
 
 using namespace gamelib;
 using namespace mazer;
 using namespace std;
 
-
-
-
 bool LevelManager::Initialize()
 {
 	if (initialized) { return true; }
 
-	// Obtain game settings
-	verbose = GetBoolSetting("global", "verbose");
-	disableCharacters = GetBoolSetting("global", "disableCharacters");
-	isGameServer = SettingsManager::Get()->GetBool("networking", "isGameServer");
-	sendRateMs = SettingsManager::Get()->GetInt("gameStatePusher", "sendRateMs");
-	const auto gameStatePusherEnabled = SettingsManager::Get()->GetBool("gameStatePusher", "enabled");
+	try
+	{
+		// Obtain game settings
+		verbose = GetBoolSetting("global", "verbose");
+		disableCharacters = GetBoolSetting("global", "disableCharacters");
+		isGameServer = SettingsManager::Get()->GetBool("networking", "isGameServer");
+		sendRateMs = SettingsManager::Get()->GetInt("gameStatePusher", "sendRateMs");
+		const auto gameStatePusherEnabled = SettingsManager::Get()->GetBool("gameStatePusher", "enabled");
 
-	// Set game data
-	GameData::Get()->IsNetworkGame = GetBoolSetting("global", "isNetworkGame");
-	GameData::Get()->IsGameDone = false;
-	GameData::Get()->IsNetworkGame = false;
-	GameData::Get()->CanDraw = true;
+		// Set game data
+		GameData::Get()->IsNetworkGame = GetBoolSetting("global", "isNetworkGame");
+		GameData::Get()->IsGameDone = false;
+		GameData::Get()->IsNetworkGame = false;
+		GameData::Get()->CanDraw = true;
 
-	// Construct key components
-	eventManager = EventManager::Get();
-	eventFactory = EventFactory::Get();
-	gameCommands = std::make_shared<GameCommands>();
-	inputManager = std::make_shared<InputManager>(gameCommands, verbose);
+		// Construct key components
+		eventManager = EventManager::Get();
+		eventFactory = EventFactory::Get();
+		gameCommands = std::make_shared<GameCommands>();
+		inputManager = std::make_shared<InputManager>(gameCommands, verbose);
 
-	// Subscribe to events we are interested in...
-	eventManager->SubscribeToEvent(GenerateNewLevelEventId, this);
-	eventManager->SubscribeToEvent(InvalidMoveEventId, this);
-	eventManager->SubscribeToEvent(FetchedPickupEventId, this);
-	eventManager->SubscribeToEvent(GameObjectTypeEventId, this);
-	eventManager->SubscribeToEvent(SceneChangedEventTypeEventId, this);
-	eventManager->SubscribeToEvent(NetworkPlayerJoinedEventId, this);
-	eventManager->SubscribeToEvent(StartNetworkLevelEventId, this);
-	eventManager->SubscribeToEvent(UpdateProcessesEventId, this);
-	eventManager->SubscribeToEvent(GameWonEventId, this);
-	eventManager->SubscribeToEvent(PlayerCollidedWithEnemyEventId, this);
-	eventManager->SubscribeToEvent(PlayerDiedEventId, this);
-	eventManager->SubscribeToEvent(PlayerCollidedWithPickupEventId, this);
+		// Subscribe to events we are interested in...
+		eventManager->SubscribeToEvent(GenerateNewLevelEventId, this);
+		eventManager->SubscribeToEvent(InvalidMoveEventId, this);
+		eventManager->SubscribeToEvent(FetchedPickupEventId, this);
+		eventManager->SubscribeToEvent(GameObjectTypeEventId, this);
+		eventManager->SubscribeToEvent(SceneChangedEventTypeEventId, this);
+		eventManager->SubscribeToEvent(NetworkPlayerJoinedEventId, this);
+		eventManager->SubscribeToEvent(StartNetworkLevelEventId, this);
+		eventManager->SubscribeToEvent(UpdateProcessesEventId, this);
+		eventManager->SubscribeToEvent(GameWonEventId, this);
+		eventManager->SubscribeToEvent(PlayerCollidedWithEnemyEventId, this);
+		eventManager->SubscribeToEvent(PlayerDiedEventId, this);
+		eventManager->SubscribeToEvent(PlayerCollidedWithPickupEventId, this);
 
-	elapsedTimeProvider = std::make_shared<ElapsedGameTimeProvider>();
+		elapsedTimeProvider = std::make_shared<ElapsedGameTimeProvider>();
 
-	// Mark initialisation as done
-	return initialized = true;
+		// Mark initialisation as done
+		return initialized = true;
+	}
+	catch (exception ex)
+	{
+		return false;
+	}
 }
 
 ListOfEvents LevelManager::HandleEvent(const std::shared_ptr<Event>& evt, const unsigned long inDeltaMs)

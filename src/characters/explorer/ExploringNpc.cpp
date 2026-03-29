@@ -8,8 +8,11 @@
 #include <ai/ScriptedBehavior.h>
 #include <ai/BehaviorTree.h>
 #include <ai/BehaviorTreeBuilder.h>
+#include <events/UpdateProcessesEvent.h>
+
 #include "MoveInCurrentDirection.h"
 #include "HaveDecided.h"
+#include "PerceptionService.h"
 
 void ExploringNpc::Initialize()
 {
@@ -23,6 +26,16 @@ void ExploringNpc::Initialize()
 
 	// Setup game object move strategy
 	gameObjectMoveStrategy = std::make_shared<mazer::GameObjectMoveStrategy>(shared_from_this(), currentRoomInfo);
+
+	// Setup agent blackboard
+	blackboard = std::make_shared<gamelib::Blackboard>();
+
+	// Setup agent perception
+	perceptionService = std::make_shared<PerceptionService>(shared_from_this());
+
+	// Attach perception service to process manager.
+	processManager.AttachProcess(perceptionService);
+	SubscribeToEvent(gamelib::UpdateProcessesEventId);
 
 	// Construct our behaviours
 	moveInCurrentDirection = new MoveInCurrentDirection(shared_from_this());
@@ -54,6 +67,17 @@ void ExploringNpc::Initialize()
 
 			.Action(scriptedBehavior)
 		.End();
+}
+
+gamelib::ListOfEvents ExploringNpc::HandleEvent(const std::shared_ptr<gamelib::Event> &event, const unsigned long deltaMs)
+{
+	Npc::HandleEvent(event, deltaMs);
+
+	if (event->Id == gamelib::UpdateProcessesEventId)
+	{
+		processManager.UpdateProcesses(deltaMs);
+	}
+	return {};
 }
 
 void ExploringNpc::Update(const unsigned long deltaMs)

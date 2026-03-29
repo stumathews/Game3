@@ -4,7 +4,6 @@
 
 #include "ggml-opt.h"
 #include "llama-cpp.h"
-#include "log.h"
 #include <set>
 #include <sstream>
 #include <string>

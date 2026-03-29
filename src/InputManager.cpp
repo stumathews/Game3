@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <cppgamelib/exceptions/EngineException.h>
+#include <events/EventManager.h>
 
 #include "console/Console.h"
 #include "console/ConsoleBackspacePressedEvent.h"

@@ -1,10 +1,8 @@
 #pragma once
 #include "file/SettingsManager.h"
-#include "events/EventManager.h"
 #include <events/EventSubscriber.h>
 #include <memory>
 #include "audio/AudioManager.h"
-#include <resource/ResourceManager.h>
 #include <events/Event.h>
 #include "events/ControllerMoveEvent.h"
 #include "objects/GameObject.h"

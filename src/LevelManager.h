@@ -14,13 +14,13 @@
 #include "InputManager.h"
 #include "pickup.h"
 #include "graphic/DrawableText.h"
-#include "net/GameStatePusher.h"
 #include "net/NetworkingActivityMonitor.h"
 #include "Level.h"
 #include <vector>
 #include "MoveProbabilityMatrix.h"
 #include "characters/explorer/ExploringNpc.h"
 
+class Console;
 typedef std::vector<std::weak_ptr<gamelib::GameObject>> ListOfGameObjects;
 
 class LevelManager final : public gamelib::EventSubscriber

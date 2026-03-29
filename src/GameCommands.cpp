@@ -3,9 +3,7 @@
 #include <memory>
 #include <cppgamelib/events/ControllerMoveEvent.h>
 #include <cppgamelib/events/SceneChangedEvent.h>
-#include <cppgamelib/scene/SceneManager.h>
 #include <cppgamelib/events/NetworkTrafficReceivedEvent.h>
-#include <sstream>
 #include <cppgamelib/net/NetworkManager.h>
 #include <cppgamelib/events/StartNetworkLevelEvent.h>
 #include "LevelManager.h"
@@ -13,8 +11,6 @@
 #include <SDL_mixer.h>
 #include <file/SettingsManager.h>
 #include "EventNumber.h"
-#include <cppgamelib/events/NetworkPlayerJoinedEvent.h>
-#include <cppgamelib/utils/Utils.h>
 #include <mazer/GameDataManager.h>
 
 using namespace gamelib;
@@ -26,11 +22,6 @@ GameCommands::GameCommands()
 	logCommands = SettingsManager::Bool("global", "verbose");
 	
 	//EventManager::Get()->SubscribeToEvent(PlayerMovedEventTypeEventId, this);
-}
-
-std::string GameCommands::GetSubscriberName()
-{
-	return "GameCommands";
 }
 
 void GameCommands::Fire(const bool beVerbose)
@@ -176,4 +167,9 @@ ListOfEvents GameCommands::HandleEvent(const std::shared_ptr<Event>& evt, const 
 {	
 	// Consider handling all game level events in LevelManager.cpp which then call into GameCommands.cpp
 	return {};
+}
+
+std::string GameCommands::GetSubscriberName()
+{
+	return "GameCommands";
 }

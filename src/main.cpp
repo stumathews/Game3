@@ -1,5 +1,4 @@
 //#include "SDL.h"
-#include <vector>
 #include <cppgamelib/file/Logger.h>
 #include <cppgamelib/file/SettingsManager.h>
 #include <cppgamelib/structure/GameStructure.h>

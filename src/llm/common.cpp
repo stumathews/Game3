@@ -8,7 +8,6 @@
 #include "common.h"
 #include "log.h"
 #include "llama.h"
-#include "sampling.h"
 
 #include <algorithm>
 #include <cinttypes>
@@ -21,7 +20,6 @@
 #include <ctime>
 #include <filesystem>
 #include <fstream>
-#include <iostream>
 #include <iterator>
 #include <regex>
 #include <sstream>
@@ -234,7 +232,6 @@ bool set_process_priority(enum ggml_sched_priority prio) {
 }
 
 #else // MacOS and POSIX
-#include <sys/types.h>
 #include <sys/resource.h>
 
 bool set_process_priority(enum ggml_sched_priority prio) {
@@ -781,8 +778,6 @@ bool fs_validate_filename(const std::string & filename, bool allow_subdirs) {
 
     return true;
 }
-
-#include <iostream>
 
 
 #ifdef _WIN32

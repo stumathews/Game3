@@ -78,6 +78,7 @@ set(sourceFiles
         src/characters/explorer/IsInCenterOfRoom.cpp
         src/characters/explorer/MoveInCurrentDirection.cpp
         src/characters/explorer/NotIncenterOfRoom.cpp
+        src/characters/explorer/PerceptionService.cpp
         src/llm/StreamingLLM.cpp
         src/characters/explorer/HaveDecided.cpp
         src/console/Console.cpp

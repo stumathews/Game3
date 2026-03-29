@@ -8,11 +8,15 @@
 
 HaveDecided::HaveDecided(const std::shared_ptr<ExploringNpc> &npc): npc(npc)
 {
-
+    // empty
 }
 
 gamelib::Status HaveDecided::Update(unsigned long deltaMs)
 {
-    if (npc->hasDecided) return gamelib::Status::Success;
+    if (npc->hasDecided)
+    {
+        return gamelib::Status::Success;
+    }
+
     return gamelib::Status::Failure;
 }

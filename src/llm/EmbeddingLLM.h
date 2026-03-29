@@ -2,10 +2,7 @@
 #include <string>
 #include <vector>
 #include "llama.h"
-#include <iostream>
 #include "common.h"
-#include <ctime>
-#include <algorithm>
 
 class EmbeddingLLM
 {
